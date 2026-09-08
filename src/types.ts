@@ -3,8 +3,8 @@
 // que la app — sin necesidad de una capa que traduzca español <-> inglés —
 // así que estos tipos describen también la forma en que va a responder la API.
 
-export interface User {
+export type User = {
   id: string;
   name: string;
   email: string;
-}
+};
