@@ -1,4 +1,4 @@
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native'; 
 import { ScreenHeader } from '../../components/ui/ScreenHeader';
 import { GarmentCard } from '../../components/ui/GarmentCard';
 import { mockGarments } from '../../data/mockGarments';

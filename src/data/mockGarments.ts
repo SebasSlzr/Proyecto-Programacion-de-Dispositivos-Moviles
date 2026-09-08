@@ -17,4 +17,5 @@ export const mockGarments: Garment[] = [
   { id: '4', name: 'Vestido midi floral', category: 'Vestido', color: 'Verde', swatchColor: '#5C6B4F' },
   { id: '5', name: 'Tenis blancos', category: 'Zapatos', color: 'Blanco', swatchColor: '#C9C4B8' },
   { id: '6', name: 'Bufanda de lana', category: 'Accesorio', color: 'Vino tinto', swatchColor: '#6B2F3A' },
+  { id: '7', name: 'Gorra de lana', category: 'Accesorio', color: 'Gris', swatchColor: '#8A8A8A' }
 ];
