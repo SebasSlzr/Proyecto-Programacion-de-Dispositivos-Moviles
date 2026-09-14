@@ -1,19 +1,17 @@
-// URL base del backend. Cambia la IP por la que te dio "ipconfig"
-// (adaptador WiFi) — el celular debe estar en la misma red.
-const API_URL = 'http://172.20.10.8:4000/api';
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
+if (!API_URL) {
+  throw new Error(
+    'Falta EXPO_PUBLIC_API_URL en el archivo .env — revisa que exista en la raíz del proyecto y reinicia con "npx expo start -c".'
+  );
+}
 
 let authToken: string | null = null;
 
-/** Guarda el token en memoria para que las siguientes peticiones lo incluyan. */
 export function setToken(token: string | null) {
   authToken = token;
 }
 
-/**
- * Sin `body` hace un GET, con `body` hace un POST con JSON.
- * Si el backend responde con error, lanza un Error con el mensaje que
- * mandó el servidor — así lo atrapa directo la pantalla que llamó a esto.
- */
 export async function request<T>(path: string, body?: object): Promise<T> {
   const response = await fetch(`${API_URL}${path}`, {
     method: body ? 'POST' : 'GET',
@@ -25,10 +23,6 @@ export async function request<T>(path: string, body?: object): Promise<T> {
   });
 
   const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message ?? 'Ocurrió un error inesperado');
-  }
-
+  if (!response.ok) throw new Error(data.message ?? 'Ocurrió un error inesperado');
   return data as T;
 }

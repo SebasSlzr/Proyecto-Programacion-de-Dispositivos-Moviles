@@ -1,19 +1,15 @@
 import { Link } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { Text, View } from 'react-native';
-import { Button } from '../components/ui/Button';
-import { FormField } from '../components/ui/FormField';
-import { ScreenHeader } from '../components/ui/ScreenHeader';
-import { useSession } from '../session/context';
+import { Button } from '../src/components/ui/Button';
+import { FormField } from '../src/components/ui/FormField';
+import { ScreenHeader } from '../src/components/ui/ScreenHeader';
+import { useSession } from '../src/session/context';
 
-/** Los datos que captura este formulario. */
 type LoginForm = { email: string; password: string };
 
 export default function LoginScreen() {
   const { signIn } = useSession();
-
-  // `control` conecta los campos, `handleSubmit` valida antes de enviar y
-  // `formState` trae los errores y si se está enviando en este momento.
   const { control, handleSubmit, setError, formState } = useForm<LoginForm>({
     defaultValues: { email: '', password: '' },
   });
@@ -21,11 +17,7 @@ export default function LoginScreen() {
   const submit = async ({ email, password }: LoginForm) => {
     try {
       await signIn(email, password);
-      // No hay que navegar a mano: al cambiar la sesión, el layout raíz
-      // muestra el armario automáticamente (ver src/app/_layout.tsx).
     } catch (error) {
-      // `root` es el error del formulario completo (credenciales malas,
-      // servidor apagado...), a diferencia del error de un campo puntual.
       setError('root', { message: (error as Error).message });
     }
   };

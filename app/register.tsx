@@ -1,10 +1,10 @@
 import { Link } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { ScrollView, Text, View } from 'react-native';
-import { Button } from '../components/ui/Button';
-import { FormField } from '../components/ui/FormField';
-import { ScreenHeader } from '../components/ui/ScreenHeader';
-import { useSession } from '../session/context';
+import { Button } from '../src/components/ui/Button';
+import { FormField } from '../src/components/ui/FormField';
+import { ScreenHeader } from '../src/components/ui/ScreenHeader';
+import { useSession } from '../src/session/context';
 
 type RegisterForm = { name: string; email: string; password: string; confirmation: string };
 
@@ -14,8 +14,6 @@ export default function RegisterScreen() {
     defaultValues: { name: '', email: '', password: '', confirmation: '' },
   });
 
-  // `confirmation` no se envía al backend: solo sirve para revisar que no
-  // hubo una errata al escribir la contraseña.
   const submit = async ({ name, email, password }: RegisterForm) => {
     try {
       await signUp(name, email, password);
@@ -63,9 +61,6 @@ export default function RegisterScreen() {
           placeholder="••••••••"
           rules={{
             required: 'La contraseña es obligatoria',
-            // 8 caracteres, igual que exige el backend guía: si aquí se
-            // pidiera menos, el servidor rechazaría el registro y la persona
-            // no entendería por qué.
             minLength: { value: 8, message: 'Mínimo 8 caracteres' },
           }}
         />

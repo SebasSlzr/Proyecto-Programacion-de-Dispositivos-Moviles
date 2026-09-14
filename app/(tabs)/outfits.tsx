@@ -1,6 +1,6 @@
 import { ScrollView } from 'react-native';
-import { ScreenHeader } from '../../components/ui/ScreenHeader';
-import { EmptyState } from '../../components/ui/EmptyState';
+import { ScreenHeader } from '../../src/components/ui/ScreenHeader';
+import { EmptyState } from '../../src/components/ui/EmptyState';
 
 export default function OutfitsScreen() {
   return (
