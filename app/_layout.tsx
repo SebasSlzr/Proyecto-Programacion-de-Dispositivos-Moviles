@@ -43,6 +43,10 @@ function Navigator() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Protected guard={!!user}>
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="garment/new" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="garment/[id]" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="outfit/new" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="outfit/[id]" options={{ presentation: 'modal' }} />
       </Stack.Protected>
 
       <Stack.Protected guard={!user}>

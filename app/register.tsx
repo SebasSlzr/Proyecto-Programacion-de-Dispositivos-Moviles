@@ -37,9 +37,11 @@ export default function RegisterScreen() {
           label="Nombre"
           autoCapitalize="words"
           placeholder="Tu nombre completo"
+          maxLength={60}
           rules={{
             required: 'El nombre es obligatorio',
             minLength: { value: 2, message: 'Mínimo 2 caracteres' },
+            maxLength: { value: 60, message: 'Máximo 60 caracteres' },
           }}
         />
         <FormField
@@ -48,8 +50,10 @@ export default function RegisterScreen() {
           label="Correo"
           keyboardType="email-address"
           placeholder="tucorreo@ejemplo.com"
+          maxLength={254}
           rules={{
             required: 'El correo es obligatorio',
+            maxLength: { value: 254, message: 'Máximo 254 caracteres' },
             pattern: { value: /^\S+@\S+\.\S+$/, message: 'Correo inválido' },
           }}
         />
@@ -59,9 +63,11 @@ export default function RegisterScreen() {
           label="Contraseña"
           secureTextEntry
           placeholder="••••••••"
+          maxLength={72}
           rules={{
             required: 'La contraseña es obligatoria',
             minLength: { value: 8, message: 'Mínimo 8 caracteres' },
+            maxLength: { value: 72, message: 'Máximo 72 caracteres' },
           }}
         />
         <FormField
@@ -70,6 +76,7 @@ export default function RegisterScreen() {
           label="Confirmar contraseña"
           secureTextEntry
           placeholder="••••••••"
+          maxLength={72}
           rules={{
             required: 'Confirma la contraseña',
             validate: (value) => value === getValues('password') || 'Las contraseñas no coinciden',

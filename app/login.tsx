@@ -33,8 +33,10 @@ export default function LoginScreen() {
           label="Correo"
           keyboardType="email-address"
           placeholder="tucorreo@ejemplo.com"
+          maxLength={254}
           rules={{
             required: 'El correo es obligatorio',
+            maxLength: { value: 254, message: 'Máximo 254 caracteres' },
             pattern: { value: /^\S+@\S+\.\S+$/, message: 'Correo inválido' },
           }}
         />
@@ -44,7 +46,11 @@ export default function LoginScreen() {
           label="Contraseña"
           secureTextEntry
           placeholder="••••••••"
-          rules={{ required: 'La contraseña es obligatoria' }}
+          maxLength={72}
+          rules={{
+            required: 'La contraseña es obligatoria',
+            maxLength: { value: 72, message: 'Máximo 72 caracteres' },
+          }}
         />
       </View>
 

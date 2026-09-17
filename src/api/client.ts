@@ -12,9 +12,18 @@ export function setToken(token: string | null) {
   authToken = token;
 }
 
-export async function request<T>(path: string, body?: object): Promise<T> {
+type RequestOptions = {
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  body?: object;
+};
+
+// Sin "method", se infiere: GET si no hay body, POST si lo hay.
+// Para PUT/DELETE hay que indicarlo explícito: request(path, { method: 'PUT', body }).
+export async function request<T>(path: string, { method, body }: RequestOptions = {}): Promise<T> {
+  const resolvedMethod = method ?? (body ? 'POST' : 'GET');
+
   const response = await fetch(`${API_URL}${path}`, {
-    method: body ? 'POST' : 'GET',
+    method: resolvedMethod,
     headers: {
       'Content-Type': 'application/json',
       ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
