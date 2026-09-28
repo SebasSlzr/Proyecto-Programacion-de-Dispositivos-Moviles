@@ -1,16 +1,17 @@
 import { useCallback, useMemo, useState } from 'react';
 import { View, ScrollView, RefreshControl, ActivityIndicator, Pressable, Text } from 'react-native';
-import { router } from 'expo-router';
-import { useFocusEffect } from 'expo-router/react-navigation';
+import { router, useNavigation } from 'expo-router';
+import { useFocusEffect, DrawerActions } from 'expo-router/react-navigation';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenHeader } from '../../src/components/ui/ScreenHeader';
-import { OutfitCard } from '../../src/components/ui/OutfitCard';
-import { SearchBar } from '../../src/components/ui/SearchBar';
-import { listOutfits } from '../../src/api/outfits';
-import { COLORS } from '../../src/constants/theme';
-import type { Outfit } from '../../src/types';
+import { ScreenHeader } from '../../../src/components/ui/ScreenHeader';
+import { OutfitCard } from '../../../src/components/ui/OutfitCard';
+import { SearchBar } from '../../../src/components/ui/SearchBar';
+import { listOutfits } from '../../../src/api/outfits';
+import { COLORS } from '../../../src/constants/theme';
+import type { Outfit } from '../../../src/types';
 
 export default function OutfitsScreen() {
+  const navigation = useNavigation();
   const [outfits, setOutfits] = useState<Outfit[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -54,15 +55,22 @@ export default function OutfitsScreen() {
       <View className="flex-row items-start justify-between">
         <ScreenHeader title="Outfits" subtitle={`${outfits.length} outfits guardados`} />
         <Pressable
-          onPress={() => router.push('/outfit/new')}
+          onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
           className="bg-plum rounded-full w-11 h-11 items-center justify-center"
         >
-          <Ionicons name="add" size={24} color={COLORS.ivory} />
+          <Ionicons name="person-outline" size={22} color={COLORS.ivory} />
         </Pressable>
       </View>
 
-      <View className="mt-5">
+      <View className="mt-5 gap-3">
         <SearchBar value={search} onChangeText={setSearch} placeholder="Buscar outfit…" />
+        <Pressable
+          onPress={() => router.push('/outfit/new')}
+          className="bg-plum rounded-full py-3 flex-row items-center justify-center gap-2"
+        >
+          <Ionicons name="add" size={20} color={COLORS.ivory} />
+          <Text className="font-body-bold text-ivory text-base">Agregar outfit</Text>
+        </Pressable>
       </View>
 
       {isLoading ? (
@@ -75,7 +83,7 @@ export default function OutfitsScreen() {
             {outfits.length === 0 ? 'Aún no has armado ningún outfit' : 'Nada coincide con tu búsqueda'}
           </Text>
           <Text className="font-body text-ink/60 text-sm text-center mt-2">
-            {outfits.length === 0 ? 'Toca el botón + y combina prendas de tu armario.' : 'Prueba con otro nombre.'}
+            {outfits.length === 0 ? 'Toca "Agregar outfit" y combina prendas de tu armario.' : 'Prueba con otro nombre.'}
           </Text>
         </View>
       ) : (

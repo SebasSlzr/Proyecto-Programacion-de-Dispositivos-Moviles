@@ -7,6 +7,7 @@
     "@expo-google-fonts/manrope": "^0.4.2",
     "@expo/ui": "~57.0.15",
     "@expo/vector-icons": "^15.0.2",
+    "@react-navigation/drawer": "^7.14.2",
     "expo": "~57.0.19",
     "expo-constants": "~57.0.17",
     "expo-device": "~57.0.1",

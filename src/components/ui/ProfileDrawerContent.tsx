@@ -1,12 +1,24 @@
 import { useState } from 'react';
 import { View, Text, TextInput, ScrollView, Alert, Pressable } from 'react-native';
-import { ScreenHeader } from '../../src/components/ui/ScreenHeader';
-import { Button } from '../../src/components/ui/Button';
-import { useSession } from '../../src/session/context';
-import { updateMe, deleteMe } from '../../src/api/users';
-import { COLORS } from '../../src/constants/theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
+import { ScreenHeader } from './ScreenHeader';
+import { Button } from './Button';
+import { useSession } from '../../session/context';
+import { updateMe, deleteMe } from '../../api/users';
+import { COLORS } from '../../constants/theme';
 
-export default function ProfileScreen() {
+// En vez de tipar con DrawerContentComponentProps (que en SDK 57 viene de
+// dos fuentes incompatibles entre expo-router y @react-navigation/drawer),
+// se tipa solo lo que este componente realmente usa: closeDrawer().
+type ProfileDrawerContentProps = {
+  navigation: {
+    closeDrawer: () => void;
+  };
+};
+
+export function ProfileDrawerContent({ navigation }: ProfileDrawerContentProps) {
+  const insets = useSafeAreaInsets();
   const { user, signOut, updateUser } = useSession();
 
   const [name, setName] = useState(user?.name ?? '');
@@ -16,7 +28,7 @@ export default function ProfileScreen() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  if (!user) return null; // Stack.Protected ya garantiza que esto no se vea sin sesión.
+  if (!user) return null;
 
   const saveChanges = async () => {
     setError(null);
@@ -66,10 +78,18 @@ export default function ProfileScreen() {
   return (
     <ScrollView
       className="flex-1 bg-linen"
-      contentContainerStyle={{ padding: 20, paddingTop: 60, gap: 20 }}
+      contentContainerStyle={{ padding: 20, paddingTop: insets.top + 20, gap: 20 }}
       keyboardShouldPersistTaps="handled"
     >
-      <ScreenHeader title="Tu perfil" subtitle="Administra tu cuenta" />
+      <View className="flex-row items-start justify-between">
+        <ScreenHeader title="Tu perfil" subtitle="Administra tu cuenta" />
+        <Pressable
+          onPress={() => navigation.closeDrawer()}
+          className="bg-ivory rounded-full w-9 h-9 items-center justify-center"
+        >
+          <Ionicons name="close" size={18} color={COLORS.ink} />
+        </Pressable>
+      </View>
 
       <View className="gap-1.5">
         <Text className="font-body-medium text-ink text-sm">Nombre</Text>
@@ -115,9 +135,12 @@ export default function ProfileScreen() {
 
       <Button label={isSubmitting ? 'Guardando…' : 'Guardar cambios'} onPress={saveChanges} disabled={isSubmitting} />
 
-      <View className="border-t border-taupe pt-6 gap-3 mt-4">
+      <View className="border-t border-taupe pt-6 gap-3 mt-4" style={{ paddingBottom: insets.bottom + 20 }}>
         <Button label="Cerrar sesión" variant="secondary" onPress={signOut} />
-        <Pressable onPress={confirmDeleteAccount} className="rounded-full py-3 px-6 items-center border border-red-300 bg-red-50">
+        <Pressable
+          onPress={confirmDeleteAccount}
+          className="rounded-full py-3 px-6 items-center border border-red-300 bg-red-50"
+        >
           <Text className="font-body-bold text-red-500 text-base">Eliminar cuenta</Text>
         </Pressable>
       </View>

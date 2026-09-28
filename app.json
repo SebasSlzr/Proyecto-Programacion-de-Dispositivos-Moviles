@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "mi-app",
-    "slug": "mi-app",
+    "slug": "percha",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -40,6 +40,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "8b15a99c-ac0f-47f1-9218-503776a0fce1"
+      }
+    },
+    "owner": "sebz_slzr"
   }
 }

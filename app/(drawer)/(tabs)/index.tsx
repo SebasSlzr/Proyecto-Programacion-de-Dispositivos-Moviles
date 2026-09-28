@@ -1,18 +1,19 @@
 import { useCallback, useMemo, useState } from 'react';
 import { View, ScrollView, RefreshControl, ActivityIndicator, Pressable, Text } from 'react-native';
-import { router } from 'expo-router';
-import { useFocusEffect } from 'expo-router/react-navigation';
+import { router, useNavigation } from 'expo-router';
+import { useFocusEffect, DrawerActions } from 'expo-router/react-navigation';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenHeader } from '../../src/components/ui/ScreenHeader';
-import { GarmentCard } from '../../src/components/ui/GarmentCard';
-import { SearchBar } from '../../src/components/ui/SearchBar';
-import { Chip } from '../../src/components/ui/Chip';
-import { listGarments } from '../../src/api/garments';
-import { CATEGORIES } from '../../src/constants/garments';
-import { COLORS } from '../../src/constants/theme';
-import type { Garment } from '../../src/types';
+import { ScreenHeader } from '../../../src/components/ui/ScreenHeader';
+import { GarmentCard } from '../../../src/components/ui/GarmentCard';
+import { SearchBar } from '../../../src/components/ui/SearchBar';
+import { Chip } from '../../../src/components/ui/Chip';
+import { listGarments } from '../../../src/api/garments';
+import { CATEGORIES } from '../../../src/constants/garments';
+import { COLORS } from '../../../src/constants/theme';
+import type { Garment } from '../../../src/types';
 
 export default function ArmarioScreen() {
+  const navigation = useNavigation();
   const [garments, setGarments] = useState<Garment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -43,8 +44,6 @@ export default function ArmarioScreen() {
     setIsRefreshing(false);
   };
 
-  // Búsqueda y filtro son locales: la lista ya se trajo completa, no hace
-  // falta pedirle al servidor cada vez que la persona escribe una letra.
   const filteredGarments = useMemo(() => {
     return garments.filter((garment) => {
       const matchesSearch = garment.name.toLowerCase().includes(search.toLowerCase());
@@ -62,10 +61,10 @@ export default function ArmarioScreen() {
       <View className="flex-row items-start justify-between">
         <ScreenHeader title="Tu armario" subtitle={`${garments.length} prendas guardadas`} />
         <Pressable
-          onPress={() => router.push('/garment/new')}
+          onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
           className="bg-plum rounded-full w-11 h-11 items-center justify-center"
         >
-          <Ionicons name="add" size={24} color={COLORS.ivory} />
+          <Ionicons name="person-outline" size={22} color={COLORS.ivory} />
         </Pressable>
       </View>
 
@@ -82,6 +81,13 @@ export default function ArmarioScreen() {
             />
           ))}
         </ScrollView>
+        <Pressable
+          onPress={() => router.push('/garment/new')}
+          className="bg-plum rounded-full py-3 flex-row items-center justify-center gap-2"
+        >
+          <Ionicons name="add" size={20} color={COLORS.ivory} />
+          <Text className="font-body-bold text-ivory text-base">Agregar prenda</Text>
+        </Pressable>
       </View>
 
       {isLoading ? (
@@ -95,7 +101,7 @@ export default function ArmarioScreen() {
           </Text>
           <Text className="font-body text-ink/60 text-sm text-center mt-2">
             {garments.length === 0
-              ? 'Toca el botón + para agregar tu primera prenda.'
+              ? 'Toca "Agregar prenda" para empezar.'
               : 'Prueba con otro texto o quita el filtro de categoría.'}
           </Text>
         </View>
