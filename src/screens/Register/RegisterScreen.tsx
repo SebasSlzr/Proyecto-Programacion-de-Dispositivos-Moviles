@@ -1,26 +1,13 @@
 import { Link } from 'expo-router';
-import { useForm } from 'react-hook-form';
-import { ScrollView, Text, View } from 'react-native';
-import { Button } from '../src/components/ui/Button';
-import { FormField } from '../src/components/ui/FormField';
-import { ScreenHeader } from '../src/components/ui/ScreenHeader';
-import { useSession } from '../src/session/context';
-
-type RegisterForm = { name: string; email: string; password: string; confirmation: string };
+import { ScrollView, View } from 'react-native';
+import { Button } from '@/components/ui/Button';
+import { FormError } from '@/components/ui/FormError';
+import { FormField } from '@/components/ui/FormField';
+import { ScreenHeader } from '@/components/ui/ScreenHeader';
+import { useRegister } from './useRegister';
 
 export default function RegisterScreen() {
-  const { signUp } = useSession();
-  const { control, handleSubmit, setError, getValues, formState } = useForm<RegisterForm>({
-    defaultValues: { name: '', email: '', password: '', confirmation: '' },
-  });
-
-  const submit = async ({ name, email, password }: RegisterForm) => {
-    try {
-      await signUp(name, email, password);
-    } catch (error) {
-      setError('root', { message: (error as Error).message });
-    }
-  };
+  const { control, matchesPassword, onSubmit, isSubmitting, errorMessage } = useRegister();
 
   return (
     <ScrollView
@@ -77,24 +64,13 @@ export default function RegisterScreen() {
           secureTextEntry
           placeholder="••••••••"
           maxLength={72}
-          rules={{
-            required: 'Confirma la contraseña',
-            validate: (value) => value === getValues('password') || 'Las contraseñas no coinciden',
-          }}
+          rules={{ required: 'Confirma la contraseña', validate: matchesPassword }}
         />
       </View>
 
-      {!!formState.errors.root && (
-        <Text className="font-body text-sm text-red-500 bg-red-50 rounded-2xl p-3 text-center">
-          {formState.errors.root.message}
-        </Text>
-      )}
+      <FormError message={errorMessage} />
 
-      <Button
-        label={formState.isSubmitting ? 'Creando…' : 'Crear cuenta'}
-        onPress={handleSubmit(submit)}
-        disabled={formState.isSubmitting}
-      />
+      <Button label={isSubmitting ? 'Creando…' : 'Crear cuenta'} onPress={onSubmit} disabled={isSubmitting} />
 
       <Link href="/login" className="font-body-medium text-plum text-center">
         ¿Ya tienes cuenta? Inicia sesión

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { View, Text, TextInput, ScrollView } from 'react-native';
-import { Button } from './Button';
+import { Button } from '@/components/ui/Button';
 import { OutfitSlotPicker } from './OutfitSlotPicker';
-import { OUTFIT_SLOTS, type OutfitSlotKey } from '../../constants/outfits';
-import { COLORS } from '../../constants/theme';
-import type { OutfitInput } from '../../api/outfits';
-import type { Garment } from '../../types';
+import { OUTFIT_SLOTS, type OutfitSlotKey } from '@/constants/outfits';
+import { COLORS } from '@/constants/theme';
+import type { OutfitInput } from '@/api/outfits';
+import type { Garment } from '@/types';
 
 type OutfitFormProps = {
   wardrobe: Garment[];
