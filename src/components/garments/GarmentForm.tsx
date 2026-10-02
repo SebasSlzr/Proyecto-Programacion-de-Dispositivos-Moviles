@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { View, Text, TextInput, ScrollView, Pressable } from 'react-native';
-import { Button } from './Button';
-import { Chip } from './Chip';
-import { CATEGORIES, SWATCH_OPTIONS } from '../../constants/garments';
-import { COLORS } from '../../constants/theme';
-import type { GarmentInput } from '../../api/garments';
+import { Button } from '@/components/ui/Button';
+import { Chip } from '@/components/ui/Chip';
+import { CATEGORIES, SWATCH_OPTIONS } from '@/constants/garments';
+import { COLORS } from '@/constants/theme';
+import type { GarmentInput } from '@/api/garments';
 
 type GarmentFormProps = {
   initialValues?: GarmentInput;

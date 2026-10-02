@@ -1,7 +1,7 @@
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
-import { ProfileDrawerContent } from '../../src/components/ui/ProfileDrawerContent';
-import { COLORS } from '../../src/constants/theme';
+import { ProfileDrawerContent } from '@/components/profile/ProfileDrawerContent';
+import { COLORS } from '@/constants/theme';
 
 export default function DrawerLayout() {
   return (

@@ -6,7 +6,7 @@ import {
   type RegisterOptions,
 } from 'react-hook-form';
 import { Text, TextInput, View, type TextInputProps } from 'react-native';
-import { COLORS } from '../../constants/theme';
+import { COLORS } from '@/constants/theme';
 
 // Hereda las props de TextInput (keyboardType, secureTextEntry...) y les
 // suma las que necesita para conectarse al formulario.

@@ -1,26 +1,13 @@
 import { Link } from 'expo-router';
-import { useForm } from 'react-hook-form';
-import { Text, View } from 'react-native';
-import { Button } from '../src/components/ui/Button';
-import { FormField } from '../src/components/ui/FormField';
-import { ScreenHeader } from '../src/components/ui/ScreenHeader';
-import { useSession } from '../src/session/context';
-
-type LoginForm = { email: string; password: string };
+import { View } from 'react-native';
+import { Button } from '@/components/ui/Button';
+import { FormError } from '@/components/ui/FormError';
+import { FormField } from '@/components/ui/FormField';
+import { ScreenHeader } from '@/components/ui/ScreenHeader';
+import { useLogin } from './useLogin';
 
 export default function LoginScreen() {
-  const { signIn } = useSession();
-  const { control, handleSubmit, setError, formState } = useForm<LoginForm>({
-    defaultValues: { email: '', password: '' },
-  });
-
-  const submit = async ({ email, password }: LoginForm) => {
-    try {
-      await signIn(email, password);
-    } catch (error) {
-      setError('root', { message: (error as Error).message });
-    }
-  };
+  const { control, onSubmit, isSubmitting, errorMessage } = useLogin();
 
   return (
     <View className="flex-1 bg-linen justify-center px-6 gap-6">
@@ -54,17 +41,9 @@ export default function LoginScreen() {
         />
       </View>
 
-      {!!formState.errors.root && (
-        <Text className="font-body text-sm text-red-500 bg-red-50 rounded-2xl p-3 text-center">
-          {formState.errors.root.message}
-        </Text>
-      )}
+      <FormError message={errorMessage} />
 
-      <Button
-        label={formState.isSubmitting ? 'Entrando…' : 'Entrar'}
-        onPress={handleSubmit(submit)}
-        disabled={formState.isSubmitting}
-      />
+      <Button label={isSubmitting ? 'Entrando…' : 'Entrar'} onPress={onSubmit} disabled={isSubmitting} />
 
       <Link href="/register" className="font-body-medium text-plum text-center">
         ¿No tienes cuenta? Regístrate
