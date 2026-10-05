@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { View, Text, TextInput, ScrollView, Alert, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenHeader } from './ScreenHeader';
-import { Button } from './Button';
-import { useSession } from '../../session/context';
-import { updateMe, deleteMe } from '../../api/users';
-import { COLORS } from '../../constants/theme';
+import { ScreenHeader } from '@/components/ui/ScreenHeader';
+import { Button } from '@/components/ui/Button';
+import { useSession } from '@/session/context';
+import { updateMe, deleteMe } from '@/api/users';
+import { COLORS } from '@/constants/theme';
 
 // En vez de tipar con DrawerContentComponentProps (que en SDK 57 viene de
 // dos fuentes incompatibles entre expo-router y @react-navigation/drawer),

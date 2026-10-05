@@ -1,8 +1,8 @@
 import { View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '../../constants/theme';
-import { Badge } from './Badge';
-import type { Garment } from '../../types';
+import { COLORS } from '@/constants/theme';
+import { Badge } from '@/components/ui/Badge';
+import type { Garment } from '@/types';
 
 type GarmentCardProps = {
   garment: Garment;
