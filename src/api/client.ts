@@ -23,13 +23,14 @@ export async function request<T>(path: string, { method, body }: RequestOptions 
   const resolvedMethod = method ?? (body ? 'POST' : 'GET');
 
   const response = await fetch(`${API_URL}${path}`, {
-    method: resolvedMethod,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
-    },
-    body: body ? JSON.stringify(body) : undefined,
-  });
+  method: resolvedMethod,
+  headers: {
+    'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': '1',
+    ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+  },
+  body: body ? JSON.stringify(body) : undefined,
+});
 
   const data = await response.json();
   if (!response.ok) throw new Error(data.message ?? 'Ocurrió un error inesperado');
