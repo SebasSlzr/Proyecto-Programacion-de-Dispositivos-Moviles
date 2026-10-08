@@ -1,6 +1,6 @@
-import { Alert } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { updateOutfit, deleteOutfit, type OutfitInput } from '@/api/outfits';
+import { useConfirmAction } from '@/hooks/useConfirmAction';
 import { useWardrobe } from '@/hooks/useWardrobe';
 
 type OutfitParams = { id: string; name: string; head: string; legs: string; feet: string; torso: string };
@@ -9,6 +9,7 @@ type OutfitParams = { id: string; name: string; head: string; legs: string; feet
 export function useEditOutfit() {
   const params = useLocalSearchParams<OutfitParams>();
   const { wardrobe, isLoading } = useWardrobe();
+  const { confirm } = useConfirmAction();
 
   const initialValues: OutfitInput = {
     name: params.name,
@@ -24,17 +25,14 @@ export function useEditOutfit() {
   };
 
   const confirmDelete = () => {
-    Alert.alert('Eliminar outfit', 'Esta acción no se puede deshacer.', [
-      { text: 'Cancelar', style: 'cancel' },
-      {
-        text: 'Eliminar',
-        style: 'destructive',
-        onPress: async () => {
-          await deleteOutfit(params.id);
-          router.back();
-        },
+    confirm({
+      title: 'Eliminar outfit',
+      message: 'Esta acción no se puede deshacer.',
+      onConfirm: async () => {
+        await deleteOutfit(params.id);
+        router.back();
       },
-    ]);
+    });
   };
 
   return { wardrobe, isLoading, initialValues, saveOutfit, confirmDelete };

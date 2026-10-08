@@ -1,12 +1,13 @@
-import { Alert } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { updateGarment, deleteGarment, type GarmentInput } from '@/api/garments';
+import { useConfirmAction } from '@/hooks/useConfirmAction';
 
 type GarmentParams = { id: string; name: string; category: string; color: string; swatchColor: string };
 
 // Lee la prenda desde los parámetros de la ruta y expone guardar y eliminar.
 export function useEditGarment() {
   const params = useLocalSearchParams<GarmentParams>();
+  const { confirm } = useConfirmAction();
 
   const initialValues = {
     name: params.name,
@@ -21,17 +22,14 @@ export function useEditGarment() {
   };
 
   const confirmDelete = () => {
-    Alert.alert('Eliminar prenda', 'Esta acción no se puede deshacer.', [
-      { text: 'Cancelar', style: 'cancel' },
-      {
-        text: 'Eliminar',
-        style: 'destructive',
-        onPress: async () => {
-          await deleteGarment(params.id);
-          router.back();
-        },
+    confirm({
+      title: 'Eliminar prenda',
+      message: 'Esta acción no se puede deshacer.',
+      onConfirm: async () => {
+        await deleteGarment(params.id);
+        router.back();
       },
-    ]);
+    });
   };
 
   return { initialValues, saveGarment, confirmDelete };
