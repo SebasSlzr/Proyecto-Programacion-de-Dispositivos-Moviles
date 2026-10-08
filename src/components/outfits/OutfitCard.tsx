@@ -1,6 +1,7 @@
 import { View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '@/constants/theme';
+import { useOutfitLayers } from './useOutfitLayers';
 import type { Outfit } from '@/types';
 
 type OutfitCardProps = {
@@ -10,9 +11,7 @@ type OutfitCardProps = {
 // Representación "de arriba a abajo": un bloque de color por capa, en
 // orden — cabeza, cada capa de torso, piernas, pies.
 export function OutfitCard({ outfit }: OutfitCardProps) {
-  const layers = [outfit.head, ...outfit.torso, outfit.legs, outfit.feet].filter(
-    (item): item is NonNullable<typeof item> => item !== null
-  );
+  const layers = useOutfitLayers(outfit);
 
   return (
     <View className="bg-ivory rounded-2xl overflow-hidden mb-4 shadow-sm p-3">

@@ -1,6 +1,6 @@
-import { View, Text, ScrollView, Pressable } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '@/constants/theme';
+import { View, Text, ScrollView } from 'react-native';
+import { SlotGarmentItem } from './SlotGarmentItem';
+import { useSlotSelection } from './useSlotSelection';
 import type { Garment } from '@/types';
 
 type OutfitSlotPickerProps = {
@@ -14,14 +14,7 @@ type OutfitSlotPickerProps = {
 // Un mismo picker sirve para los 4 espacios del outfit — cambia solo si
 // permite una prenda o varias apiladas (torso).
 export function OutfitSlotPicker({ label, garments, selectedIds, multiple, onChange }: OutfitSlotPickerProps) {
-  const toggle = (id: string) => {
-    if (multiple) {
-      const isSelected = selectedIds.includes(id);
-      onChange(isSelected ? selectedIds.filter((existing) => existing !== id) : [...selectedIds, id]);
-    } else {
-      onChange(selectedIds.includes(id) ? [] : [id]);
-    }
-  };
+  const { isSelected, orderOf, toggle } = useSlotSelection({ selectedIds, multiple, onChange });
 
   return (
     <View className="gap-2">
@@ -34,29 +27,15 @@ export function OutfitSlotPicker({ label, garments, selectedIds, multiple, onCha
       ) : (
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }}>
           {garments.map((garment) => {
-            const isSelected = selectedIds.includes(garment.id);
-            const order = selectedIds.indexOf(garment.id);
+            const selected = isSelected(garment.id);
             return (
-              <Pressable key={garment.id} onPress={() => toggle(garment.id)} className="items-center gap-1">
-                <View
-                  className="w-16 h-16 rounded-2xl items-center justify-center"
-                  style={{
-                    backgroundColor: garment.swatchColor,
-                    borderWidth: isSelected ? 3 : 1,
-                    borderColor: isSelected ? COLORS.plum : COLORS.taupe,
-                  }}
-                >
-                  <Ionicons name="shirt-outline" size={22} color={COLORS.ivory} />
-                  {multiple && isSelected && (
-                    <View className="absolute -top-1.5 -right-1.5 bg-plum rounded-full w-5 h-5 items-center justify-center">
-                      <Text className="font-body-bold text-ivory text-xs">{order + 1}</Text>
-                    </View>
-                  )}
-                </View>
-                <Text className="font-body text-ink/70 text-xs" numberOfLines={1} style={{ maxWidth: 64 }}>
-                  {garment.name}
-                </Text>
-              </Pressable>
+              <SlotGarmentItem
+                key={garment.id}
+                garment={garment}
+                isSelected={selected}
+                order={multiple && selected ? orderOf(garment.id) : undefined}
+                onPress={() => toggle(garment.id)}
+              />
             );
           })}
         </ScrollView>
