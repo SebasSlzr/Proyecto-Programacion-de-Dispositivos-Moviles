@@ -1,62 +1,19 @@
-import { useCallback, useMemo, useState } from 'react';
-import { useFocusEffect } from 'expo-router/react-navigation';
+import { router } from 'expo-router';
 import { listGarments } from '@/api/garments';
+import { useFocusFetch } from '@/hooks/useFocusFetch';
 import type { Garment } from '@/types';
+import { useGarmentFilters } from './useGarmentFilters';
 
-// Carga las prendas cada vez que la pantalla gana foco, y aplica búsqueda y filtro por categoría.
+// Declarada fuera del hook para que su identidad sea estable (ver useFocusFetch).
+const fetchGarments = () => listGarments().then((response) => response.garments);
+
 export function useGarmentList() {
-  const [garments, setGarments] = useState<Garment[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [search, setSearch] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
+  const { data: garments, isLoading, isRefreshing, error, onRefresh } = useFocusFetch<Garment[]>(fetchGarments, []);
+  const filters = useGarmentFilters(garments);
 
-  const loadGarments = useCallback(async () => {
-    try {
-      const data = await listGarments();
-      setGarments(data.garments);
-      setError(null);
-    } catch (err) {
-      setError((err as Error).message);
-    }
-  }, []);
+  const openNewGarment = () => router.push('/garment/new');
+  const openGarment = (garment: Garment) =>
+    router.push({ pathname: '/garment/[id]', params: { ...garment } });
 
-  useFocusEffect(
-    useCallback(() => {
-      setIsLoading(true);
-      loadGarments().finally(() => setIsLoading(false));
-    }, [loadGarments])
-  );
-
-  const onRefresh = async () => {
-    setIsRefreshing(true);
-    await loadGarments();
-    setIsRefreshing(false);
-  };
-
-  const toggleCategory = (category: string | null) => {
-    setCategoryFilter(category === null || categoryFilter === category ? null : category);
-  };
-
-  const filteredGarments = useMemo(() => {
-    return garments.filter((garment) => {
-      const matchesSearch = garment.name.toLowerCase().includes(search.toLowerCase());
-      const matchesCategory = !categoryFilter || garment.category === categoryFilter;
-      return matchesSearch && matchesCategory;
-    });
-  }, [garments, search, categoryFilter]);
-
-  return {
-    garments,
-    filteredGarments,
-    isLoading,
-    isRefreshing,
-    error,
-    search,
-    setSearch,
-    categoryFilter,
-    toggleCategory,
-    onRefresh,
-  };
+  return { garments, isLoading, isRefreshing, error, onRefresh, ...filters, openNewGarment, openGarment };
 }
