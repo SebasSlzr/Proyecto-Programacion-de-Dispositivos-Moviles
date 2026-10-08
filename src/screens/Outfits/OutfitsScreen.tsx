@@ -1,10 +1,10 @@
-import { View, ScrollView, RefreshControl, ActivityIndicator, Pressable, Text } from 'react-native';
+import { View, ScrollView, RefreshControl, ActivityIndicator, Text } from 'react-native';
 import { router } from 'expo-router';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { AddButton } from '@/components/ui/AddButton';
 import { ProfileButton } from '@/components/ui/ProfileButton';
-import { OutfitCard } from '@/components/outfits/OutfitCard';
+import { OutfitGrid } from '@/components/outfits/OutfitGrid';
 import { COLORS } from '@/constants/theme';
 import { useOutfitList } from './useOutfitList';
 
@@ -42,13 +42,7 @@ export default function OutfitsScreen() {
           </Text>
         </View>
       ) : (
-        <View className="flex-row flex-wrap justify-between mt-6">
-          {filteredOutfits.map((outfit) => (
-            <Pressable key={outfit.id} style={{ width: '47%' }} onPress={() => openOutfit(outfit)}>
-              <OutfitCard outfit={outfit} />
-            </Pressable>
-          ))}
-        </View>
+        <OutfitGrid outfits={filteredOutfits} onPressOutfit={openOutfit} />
       )}
     </ScrollView>
   );
