@@ -20,14 +20,18 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: 'Armario',
-          tabBarIcon: ({ color, size }) => <Ionicons name="shirt-outline" size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="shirt-outline" size={size} color={typeof color === 'string' ? color : COLORS.plum} />
+          ),
         }}
       />
       <Tabs.Screen
         name="outfits"
         options={{
           title: 'Outfits',
-          tabBarIcon: ({ color, size }) => <Ionicons name="sparkles-outline" size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="sparkles-outline" size={size} color={typeof color === 'string' ? color : COLORS.plum} />
+          ),
         }}
       />
       <Tabs.Screen
@@ -37,7 +41,9 @@ export default function TabsLayout() {
           // href: null esconde la pestaña de la barra para quien no es admin.
           // Es solo presentación: la protección real es el middleware del backend.
           href: isAdmin ? undefined : null,
-          tabBarIcon: ({ color, size }) => <Ionicons name="people-outline" size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="people-outline" size={size} color={typeof color === 'string' ? color : COLORS.plum} />
+          ),
         }}
       />
     </Tabs>
