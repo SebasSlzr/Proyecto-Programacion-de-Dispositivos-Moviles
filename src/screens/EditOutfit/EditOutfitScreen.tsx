@@ -16,7 +16,7 @@ export default function EditOutfitScreen() {
 
       <View className="mt-6 flex-1">
         {isLoading ? (
-          <ActivityIndicator color={COLORS.plum} style={{ marginTop: 40 }} />
+          <ActivityIndicator color={COLORS.walnut} style={{ marginTop: 40 }} />
         ) : (
           <OutfitForm
             wardrobe={wardrobe}
