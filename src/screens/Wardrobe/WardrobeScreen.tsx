@@ -9,6 +9,9 @@ import { SearchBar } from '@/components/ui/SearchBar';
 import { COLORS } from '@/constants/theme';
 import { useGarmentList } from './useGarmentList';
 
+
+
+
 export default function WardrobeScreen() {
   const list = useGarmentList();
   const isWardrobeEmpty = list.garments.length === 0;

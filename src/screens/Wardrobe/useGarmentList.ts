@@ -13,7 +13,16 @@ export function useGarmentList() {
 
   const openNewGarment = () => router.push('/garment/new');
   const openGarment = (garment: Garment) =>
-    router.push({ pathname: '/garment/[id]', params: { ...garment } });
+    router.push({
+      pathname: '/garment/[id]',
+      params: {
+        id: garment.id,
+        name: garment.name,
+        category: garment.category,
+        color: garment.color,
+        swatchColor: garment.swatchColor,
+      },
+    });
 
   return { garments, isLoading, isRefreshing, error, onRefresh, ...filters, openNewGarment, openGarment };
 }

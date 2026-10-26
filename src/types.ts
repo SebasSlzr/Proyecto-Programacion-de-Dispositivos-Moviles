@@ -17,7 +17,10 @@ export type Garment = {
   name: string;
   category: string;
   color: string;
-  swatchColor: string;
+  swatchColor: string;          // color de muestra: respaldo cuando no hay foto
+  imageUrl: string | null;      // URL de Cloudinary, o null si no tiene foto
+  imagePublicId: string | null; // identificador en Cloudinary, o null
+  isFavorite: boolean;
 };
 
 export type Outfit = {

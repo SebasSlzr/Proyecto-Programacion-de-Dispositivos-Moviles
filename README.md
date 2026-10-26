@@ -17,6 +17,8 @@ Las variables de entorno del backend ya están definidas en su `docker-compose.y
 - `JWT_SECRET`
 - `PORT`
 
+las variables CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY y CLOUDINARY_API_SECRET van en un .env del repositorio del backend (no se suben) y la app no necesita ninguna variable nueva
+
 ## App móvil (este repositorio)
 
 ```powershell

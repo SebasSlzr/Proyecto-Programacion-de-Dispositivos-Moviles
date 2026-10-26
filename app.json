@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "mi-app",
+    "name": "Percha",
     "slug": "percha",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -34,7 +34,15 @@
       ],
       "expo-font",
       "expo-status-bar",
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-image",
+      [
+      "expo-image-picker",
+        {
+          "photosPermission": "Percha usa tu galería para elegir fotos de tus prendas.",
+          "cameraPermission": "Percha usa la cámara para fotografiar tus prendas."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
