@@ -1,11 +1,13 @@
+import type { Garment } from '@/types';
 import { request } from './client';
-import type { Garment } from '../types';
 
 export type GarmentInput = {
   name: string;
   category: string;
   color: string;
   swatchColor: string;
+  imageUrl?: string | null;
+  imagePublicId?: string | null;
 };
 
 export function listGarments() {
@@ -22,4 +24,8 @@ export function updateGarment(id: string, changes: Partial<GarmentInput>) {
 
 export function deleteGarment(id: string) {
   return request<{ message: string }>(`/garments/${id}`, { method: 'DELETE' });
+}
+
+export function setGarmentFavorite(id: string, isFavorite: boolean) {
+  return request<{ garment: Garment }>(`/garments/${id}/favorite`, { method: 'PATCH', body: { isFavorite } });
 }

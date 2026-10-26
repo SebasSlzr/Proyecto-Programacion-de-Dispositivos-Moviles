@@ -30,7 +30,8 @@ export function useGarmentForm({ initialValues, onSubmit }: UseGarmentFormOption
     let payload: Partial<GarmentInput> = current;
     if (initialValues) {
       payload = {};
-      (Object.keys(current) as (keyof GarmentInput)[]).forEach((key) => {
+      const fields = ['name', 'category', 'color', 'swatchColor'] as const;
+      fields.forEach((key) => {
         if (current[key] !== initialValues[key]) payload[key] = current[key];
       });
 
