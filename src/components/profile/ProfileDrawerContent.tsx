@@ -1,4 +1,4 @@
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSession } from '@/session/context';
 import { AccountActions } from './AccountActions';
@@ -11,6 +11,8 @@ type ProfileDrawerContentProps = {
   };
 };
 
+// Contenido del drawer: encabezado de madera fijo arriba, y debajo
+// los datos de la cuenta en una tarjeta ivory y las acciones de la cuenta.
 export function ProfileDrawerContent({ navigation }: ProfileDrawerContentProps) {
   const insets = useSafeAreaInsets();
   const { user } = useSession();
@@ -18,14 +20,15 @@ export function ProfileDrawerContent({ navigation }: ProfileDrawerContentProps) 
   if (!user) return null;
 
   return (
-    <ScrollView
-      className="flex-1 bg-linen"
-      contentContainerStyle={{ padding: 20, paddingTop: insets.top + 20, gap: 20 }}
-      keyboardShouldPersistTaps="handled"
-    >
+    <View className="flex-1 bg-linen">
       <ProfileHeader onClose={() => navigation.closeDrawer()} />
-      <ProfileForm user={user} />
-      <AccountActions bottomInset={insets.bottom} />
-    </ScrollView>
+
+      <ScrollView contentContainerStyle={{ padding: 20, gap: 20 }} keyboardShouldPersistTaps="handled">
+        <View className="bg-ivory rounded-2xl p-4 gap-4 shadow-sm border border-taupe">
+          <ProfileForm user={user} />
+        </View>
+        <AccountActions bottomInset={insets.bottom} />
+      </ScrollView>
+    </View>
   );
 }
