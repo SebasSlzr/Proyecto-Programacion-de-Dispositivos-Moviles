@@ -70,7 +70,10 @@ export function GarmentForm({ initialValues, onSubmit, submitLabel }: GarmentFor
             <Pressable
               key={hex}
               onPress={() => form.setSwatchColor(hex)}
-              className="w-11 h-11 rounded-full"
+              className="w-12 h-12 rounded-full"
+              accessibilityRole="button"
+              accessibilityLabel={`Color ${hex}`}
+              accessibilityState={{ selected: form.swatchColor === hex }}
               style={{
                 backgroundColor: hex,
                 borderWidth: form.swatchColor === hex ? 3 : 1,
