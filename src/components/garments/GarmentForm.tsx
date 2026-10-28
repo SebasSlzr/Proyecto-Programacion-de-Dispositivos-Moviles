@@ -1,9 +1,10 @@
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import type { GarmentInput } from '@/api/garments';
 import { Button } from '@/components/ui/Button';
 import { Chip } from '@/components/ui/Chip';
 import { CATEGORIES, SWATCH_OPTIONS } from '@/constants/garments';
 import { COLORS } from '@/constants/theme';
+import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { PhotoPicker } from './PhotoPicker';
 import { useGarmentForm } from './useGarmentForm';
 
 type GarmentFormProps = {
@@ -16,7 +17,14 @@ export function GarmentForm({ initialValues, onSubmit, submitLabel }: GarmentFor
   const form = useGarmentForm({ initialValues, onSubmit });
 
   return (
-    <ScrollView contentContainerStyle={{ gap: 20, paddingBottom: 40 }} keyboardShouldPersistTaps="handled">
+    <ScrollView contentContainerStyle={{ gap: 20, padding: 24, paddingBottom: 40 }} keyboardShouldPersistTaps="handled">
+      <PhotoPicker
+        uri={form.photoUri}
+        swatchColor={form.swatchColor}
+        onChange={form.setPhotoUri}
+        disabled={form.isSubmitting}
+      />
+
       <View className="gap-1.5">
         <Text className="font-body-medium text-ink text-sm">Nombre de la prenda</Text>
         <TextInput
@@ -62,11 +70,14 @@ export function GarmentForm({ initialValues, onSubmit, submitLabel }: GarmentFor
             <Pressable
               key={hex}
               onPress={() => form.setSwatchColor(hex)}
-              className="w-10 h-10 rounded-full"
+              className="w-12 h-12 rounded-full"
+              accessibilityRole="button"
+              accessibilityLabel={`Color ${hex}`}
+              accessibilityState={{ selected: form.swatchColor === hex }}
               style={{
                 backgroundColor: hex,
                 borderWidth: form.swatchColor === hex ? 3 : 1,
-                borderColor: form.swatchColor === hex ? COLORS.plum : COLORS.taupe,
+                borderColor: form.swatchColor === hex ? COLORS.walnut : COLORS.taupe,
               }}
             />
           ))}
@@ -77,11 +88,7 @@ export function GarmentForm({ initialValues, onSubmit, submitLabel }: GarmentFor
         <Text className="font-body text-sm text-red-500 bg-red-50 rounded-2xl p-3 text-center">{form.error}</Text>
       )}
 
-      <Button
-        label={form.isSubmitting ? 'Guardando…' : submitLabel}
-        onPress={form.submit}
-        disabled={form.isSubmitting}
-      />
+      <Button label={form.submitLabel ?? submitLabel} onPress={form.submit} disabled={form.isSubmitting} />
     </ScrollView>
   );
 }

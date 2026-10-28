@@ -9,8 +9,11 @@ import { Manrope_700Bold } from '@expo-google-fonts/manrope/700Bold';
 
 SplashScreen.preventAutoHideAsync();
 
-// Carga las fuentes de la app y oculta el splash cuando están listas.
-export function useAppFonts() {
+// Carga las fuentes de la app y mantiene la pantalla de carga (splash) hasta
+// que todo esté listo: las fuentes y, además, lo que indique `isAppReady`
+// (en el layout raíz: que ya terminó de restaurarse la sesión). Así no se ve
+// un destello del login antes de entrar directo al armario.
+export function useAppFonts(isAppReady = true) {
   const [fontsLoaded] = useFonts({
     Fraunces_400Regular,
     Fraunces_600SemiBold,
@@ -19,9 +22,11 @@ export function useAppFonts() {
     Manrope_700Bold,
   });
 
-  useEffect(() => {
-    if (fontsLoaded) SplashScreen.hideAsync();
-  }, [fontsLoaded]);
+  const isReady = fontsLoaded && isAppReady;
 
-  return fontsLoaded;
+  useEffect(() => {
+    if (isReady) SplashScreen.hideAsync();
+  }, [isReady]);
+
+  return isReady;
 }

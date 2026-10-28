@@ -29,30 +29,28 @@ export async function uploadToCloudinary(localUri: string): Promise<{ url: strin
   form.append('public_id', sign.publicId);
   form.append('signature', sign.signature);
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), UPLOAD_TIMEOUT_MS);
-
-  try {
-    const response = await fetch(`https://api.cloudinary.com/v1_1/${sign.cloudName}/image/upload`, {
-      method: 'POST',
-      body: form, // sin Content-Type: React Native lo agrega con el límite del formulario
-      signal: controller.signal,
-    });
-    const data = (await response.json().catch(() => null)) as CloudinaryResponse | null;
-
-    if (!response.ok || !data?.secure_url || !data.public_id) {
-      throw new Error(data?.error?.message ?? 'No se pudo subir la imagen');
-    }
-    return { url: data.secure_url, publicId: data.public_id };
-  } catch (error) {
-    if ((error as Error).name === 'AbortError') {
-      throw new Error('La subida de la foto tardó demasiado. Intenta de nuevo.');
-    }
-    if (error instanceof TypeError) {
-      throw new Error('No se pudo conectar para subir la foto.');
-    }
-    throw error;
-  } finally {
-    clearTimeout(timer);
-  }
+   // Se usa XMLHttpRequest y no fetch: desde SDK 58 el fetch global es expo/fetch,
+  // que no acepta archivos { uri, name, type } en FormData ("Unsupported FormDataPart").
+  // XMLHttpRequest sigue usando la red nativa de React Native, que sí los sube.
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `https://api.cloudinary.com/v1_1/${sign.cloudName}/image/upload`);
+    xhr.timeout = UPLOAD_TIMEOUT_MS;
+    xhr.onload = () => {
+      let body: CloudinaryResponse | null = null;
+      try {
+        body = JSON.parse(xhr.responseText) as CloudinaryResponse;
+      } catch {
+        body = null;
+      }
+      if (xhr.status < 200 || xhr.status >= 300 || !body?.secure_url || !body.public_id) {
+        reject(new Error(body?.error?.message ?? 'No se pudo subir la imagen'));
+        return;
+      }
+      resolve({ url: body.secure_url, publicId: body.public_id });
+    };
+    xhr.ontimeout = () => reject(new Error('La subida de la foto tardó demasiado. Intenta de nuevo.'));
+    xhr.onerror = () => reject(new Error('No se pudo conectar para subir la foto.'));
+    xhr.send(form); // sin Content-Type: React Native lo agrega con el límite del formulario
+  });
 }
