@@ -1,4 +1,4 @@
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 import type { Garment } from '@/types';
 import { GarmentCard } from './GarmentCard';
 
@@ -7,14 +7,14 @@ type GarmentGridProps = {
   onPressGarment: (garment: Garment) => void;
 };
 
-// Grilla de dos columnas; cada tarjeta es tocable.
+// Grilla temporal de dos columnas; en el paso 3 la reemplaza la FlatList.
 export function GarmentGrid({ garments, onPressGarment }: GarmentGridProps) {
   return (
     <View className="flex-row flex-wrap justify-between mt-6">
       {garments.map((garment) => (
-        <Pressable key={garment.id} style={{ width: '47%' }} onPress={() => onPressGarment(garment)}>
-          <GarmentCard garment={garment} />
-        </Pressable>
+        <View key={garment.id} style={{ width: '48%' }}>
+          <GarmentCard garment={garment} onPress={() => onPressGarment(garment)} />
+        </View>
       ))}
     </View>
   );
