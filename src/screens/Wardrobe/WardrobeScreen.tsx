@@ -1,58 +1,78 @@
-import { RefreshControl, ScrollView, View } from 'react-native';
+import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { CategoryFilter } from '@/components/garments/CategoryFilter';
-import { GarmentGrid } from '@/components/garments/GarmentGrid';
+import { GarmentCard } from '@/components/garments/GarmentCard';
 import { AddButton } from '@/components/ui/AddButton';
 import { ListStatus } from '@/components/ui/ListStatus';
-import { ProfileButton } from '@/components/ui/ProfileButton';
-import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { SearchBar } from '@/components/ui/SearchBar';
+import { WoodHeader } from '@/components/ui/WoodHeader';
 import { COLORS } from '@/constants/theme';
 import { useGarmentList } from './useGarmentList';
 import { STRINGS } from '@/constants/strings';
 
-
-
-
+// Armario: encabezado de madera fijo y debajo una sola FlatList de dos columnas.
+// - FlatList solo dibuja las tarjetas visibles (ScrollView + map las dibujaba todas).
+// - Búsqueda, filtros y "Agregar prenda" van en ListHeaderComponent para que se
+//   desplacen con la lista sin anidar listas. Se pasa como elemento JSX (no como
+//   función creada aquí) para que el buscador no pierda el foco en cada letra.
+// - ListEmptyComponent muestra carga, error o vacío cuando no hay prendas que dibujar.
 export default function WardrobeScreen() {
   const list = useGarmentList();
-  const isWardrobeEmpty = list.garments.length === 0;
+  const total = list.garments.length;
+  const isWardrobeEmpty = total === 0;
 
   return (
-    <ScrollView
-      className="flex-1 bg-linen"
-      contentContainerStyle={{ padding: 20, paddingTop: 60, flexGrow: 1 }}
-      refreshControl={
-        <RefreshControl refreshing={list.isRefreshing} onRefresh={list.onRefresh} tintColor={COLORS.plum} />
-      }
-    >
-      <View className="flex-row items-start justify-between">
-        <ScreenHeader title={STRINGS.titles.wardrobe} subtitle={`${list.garments.length} prendas guardadas`} />
-        <ProfileButton />
-      </View>
+    <View className="flex-1 bg-linen">
+      <WoodHeader title="Tu armario" subtitle={`${total} ${total === 1 ? 'prenda guardada' : 'prendas guardadas'}`} />
 
-      <View className="mt-5 gap-3">
-        <SearchBar value={list.search} onChangeText={list.setSearch} placeholder="Buscar prenda…" />
-        <CategoryFilter
-          selected={list.categoryFilter}
-          onSelect={list.toggleCategory}
-          onClear={list.clearCategory}
-        />
-        <AddButton label={STRINGS.actions.addGarment} onPress={list.openNewGarment} />
-      </View>
-
-      <ListStatus
-        isLoading={list.isLoading}
-        error={list.error}
-        isEmpty={list.filteredGarments.length === 0}
-        emptyTitle={isWardrobeEmpty ? 'Tu armario está vacío' : 'Nada coincide con tu búsqueda'}
-        emptyDescription={
-          isWardrobeEmpty
-            ? 'Toca "Agregar prenda" para empezar.'
-            : 'Prueba con otro texto o quita el filtro de categoría.'
+      <FlatList
+        data={list.filteredGarments}
+        keyExtractor={(garment) => garment.id}
+        numColumns={2}
+        // Cada celda mide 48% y el espacio sobrante queda entre las dos columnas.
+        // Con flex: 1, una prenda sola en la última fila se estiraría a todo el ancho.
+        columnWrapperStyle={{ justifyContent: 'space-between' }}
+        contentContainerStyle={{ padding: 20, paddingBottom: 32, flexGrow: 1 }}
+        renderItem={({ item }) => (
+          <View style={{ width: '48%' }}>
+            <GarmentCard garment={item} onPress={() => list.openGarment(item)} />
+          </View>
+        )}
+        ListHeaderComponent={
+          <View className="gap-3 mb-6">
+            <SearchBar value={list.search} onChangeText={list.setSearch} placeholder="Buscar prenda…" />
+            <CategoryFilter
+              selected={list.categoryFilter}
+              onSelect={list.toggleCategory}
+              onClear={list.clearCategory}
+            />
+            <AddButton label={STRINGS.actions.addGarment} onPress={list.openNewGarment} />
+            {/* Si falla una recarga pero ya hay prendas, se avisa sin esconder la lista. */}
+            {!!list.error && !isWardrobeEmpty && (
+              <Text className="font-body text-sm text-red-500 bg-red-50 rounded-2xl p-3 text-center">
+                {list.error}
+              </Text>
+            )}
+          </View>
         }
-      >
-        <GarmentGrid garments={list.filteredGarments} onPressGarment={list.openGarment} />
-      </ListStatus>
-    </ScrollView>
+        ListEmptyComponent={
+          <ListStatus
+            isLoading={list.isLoading}
+            error={list.error}
+            isEmpty
+            emptyTitle={isWardrobeEmpty ? 'Tu armario está vacío' : 'Nada coincide con tu búsqueda'}
+            emptyDescription={
+              isWardrobeEmpty
+                ? 'Toca "Agregar prenda" para empezar.'
+                : 'Prueba con otro texto o quita el filtro de categoría.'
+            }
+          />
+        }
+        refreshControl={
+          <RefreshControl refreshing={list.isRefreshing} onRefresh={list.onRefresh} tintColor={COLORS.walnut} />
+        }
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+      />
+    </View>
   );
 }

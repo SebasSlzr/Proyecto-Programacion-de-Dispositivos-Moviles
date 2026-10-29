@@ -12,6 +12,9 @@ export function useGarmentList() {
   const filters = useGarmentFilters(garments);
 
   const openNewGarment = () => router.push('/garment/new');
+  // Los parámetros de ruta solo aceptan texto: se mandan los campos uno por uno
+  // (no { ...garment }, porque isFavorite es booleano) y '' cuando no hay foto.
+  // useEditGarment los lee con estos mismos nombres (contrato de la Fase 0).
   const openGarment = (garment: Garment) =>
     router.push({
       pathname: '/garment/[id]',
@@ -21,6 +24,8 @@ export function useGarmentList() {
         category: garment.category,
         color: garment.color,
         swatchColor: garment.swatchColor,
+        imageUrl: garment.imageUrl ?? '',
+        imagePublicId: garment.imagePublicId ?? '',
       },
     });
 
