@@ -2,6 +2,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
 import { ProfileDrawerContent } from '@/components/profile/ProfileDrawerContent';
 import { COLORS } from '@/constants/theme';
+import { STRINGS } from '@/constants/strings';
 
 export default function DrawerLayout() {
   return (
@@ -14,7 +15,8 @@ export default function DrawerLayout() {
           drawerPosition: 'right',
           swipeEnabled: false,
           drawerStyle: { backgroundColor: COLORS.linen, width: '85%' },
-          overlayColor: 'rgba(43, 38, 33, 0.4)',
+          overlayColor: COLORS.overlay,
+          title: STRINGS.tabs.wardrobe,
         }}
       >
         <Drawer.Screen name="(tabs)" />

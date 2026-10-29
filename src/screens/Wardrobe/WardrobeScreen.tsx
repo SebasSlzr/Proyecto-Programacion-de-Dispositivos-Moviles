@@ -8,6 +8,7 @@ import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { COLORS } from '@/constants/theme';
 import { useGarmentList } from './useGarmentList';
+import { STRINGS } from '@/constants/strings';
 
 
 
@@ -25,7 +26,7 @@ export default function WardrobeScreen() {
       }
     >
       <View className="flex-row items-start justify-between">
-        <ScreenHeader title="Tu armario" subtitle={`${list.garments.length} prendas guardadas`} />
+        <ScreenHeader title={STRINGS.titles.wardrobe} subtitle={`${list.garments.length} prendas guardadas`} />
         <ProfileButton />
       </View>
 
@@ -36,7 +37,7 @@ export default function WardrobeScreen() {
           onSelect={list.toggleCategory}
           onClear={list.clearCategory}
         />
-        <AddButton label="Agregar prenda" onPress={list.openNewGarment} />
+        <AddButton label={STRINGS.actions.addGarment} onPress={list.openNewGarment} />
       </View>
 
       <ListStatus

@@ -36,7 +36,7 @@ export function WoodSurface({
       style={[
         { borderRadius: radius, backgroundColor: variant === 'walnut' ? COLORS.walnut : COLORS.oak },
         shadow && {
-          shadowColor: '#1E120A',
+          shadowColor: COLORS.shadow,
           shadowOffset: { width: 0, height: 3 },
           shadowOpacity: 0.35,
           shadowRadius: 4,
@@ -49,13 +49,13 @@ export function WoodSurface({
         {showTop && (
           <View
             pointerEvents="none"
-            style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, backgroundColor: 'rgba(255,255,255,0.18)' }}
+            style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, backgroundColor: COLORS.bevelLight }}
           />
         )}
         {showBottom && (
           <View
             pointerEvents="none"
-            style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 2, backgroundColor: 'rgba(0,0,0,0.35)' }}
+            style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 2, backgroundColor: COLORS.bevelDark }}
           />
         )}
         {children}

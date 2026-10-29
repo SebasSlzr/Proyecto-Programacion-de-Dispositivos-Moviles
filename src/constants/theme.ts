@@ -15,4 +15,8 @@ export const COLORS = {
   metalLight: '#E4DFD6',
   metal: '#B8B2A7',
   metalDark: '#8C867B',
+  shadow: '#1E120A',
+  bevelLight: 'rgba(255,255,255,0.18)',
+  bevelDark: 'rgba(0,0,0,0.35)',
+  overlay: 'rgba(43, 38, 33, 0.4)',
 };
