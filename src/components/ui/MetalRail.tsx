@@ -13,7 +13,7 @@ export function MetalRail({ className = '' }: MetalRailProps) {
       style={{
         borderRadius: 5,
         backgroundColor: COLORS.metal,
-        shadowColor: '#1E120A',
+        shadowColor: COLORS.shadow,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 3,

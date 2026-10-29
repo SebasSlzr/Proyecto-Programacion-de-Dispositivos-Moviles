@@ -19,6 +19,13 @@ type RequestOptions = {
   body?: object;
 };
 
+let onUnauthorized: (() => void) | null = null;
+
+// Registra qué hacer cuando una petición CON sesión recibe 401.
+export function setUnauthorizedHandler(handler: (() => void) | null) {
+  onUnauthorized = handler;
+}
+
 // Sin "method" se infiere: GET si no hay body, POST si lo hay.
 export async function request<T>(path: string, { method, body }: RequestOptions = {}): Promise<T> {
   const controller = new AbortController();
@@ -37,7 +44,11 @@ export async function request<T>(path: string, { method, body }: RequestOptions 
     });
 
     const data = await response.json().catch(() => null);
-
+        // Un 401 en el login significa "credenciales incorrectas", no sesión vencida.
+    const isAuthRoute = path.startsWith('/auth/login') || path.startsWith('/auth/register');
+    if (response.status === 401 && authToken && !isAuthRoute) {
+      onUnauthorized?.(); // puede llamarse varias veces: borrar la sesión es idempotente
+    }
     if (!response.ok) throw new Error(data?.message ?? 'Ocurrió un error inesperado');
     if (data === null) throw new Error('El servidor respondió algo inesperado');
     return data as T;

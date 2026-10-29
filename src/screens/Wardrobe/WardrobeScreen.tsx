@@ -7,6 +7,7 @@ import { SearchBar } from '@/components/ui/SearchBar';
 import { WoodHeader } from '@/components/ui/WoodHeader';
 import { COLORS } from '@/constants/theme';
 import { useGarmentList } from './useGarmentList';
+import { STRINGS } from '@/constants/strings';
 
 // Armario: encabezado de madera fijo y debajo una sola FlatList de dos columnas.
 // - FlatList solo dibuja las tarjetas visibles (ScrollView + map las dibujaba todas).
@@ -44,7 +45,7 @@ export default function WardrobeScreen() {
               onSelect={list.toggleCategory}
               onClear={list.clearCategory}
             />
-            <AddButton label="Agregar prenda" onPress={list.openNewGarment} />
+            <AddButton label={STRINGS.actions.addGarment} onPress={list.openNewGarment} />
             {/* Si falla una recarga pero ya hay prendas, se avisa sin esconder la lista. */}
             {!!list.error && !isWardrobeEmpty && (
               <Text className="font-body text-sm text-red-500 bg-red-50 rounded-2xl p-3 text-center">

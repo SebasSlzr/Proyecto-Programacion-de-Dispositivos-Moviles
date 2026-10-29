@@ -4,6 +4,7 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
+      borderRadius: { tarjeta: '16px', pildora: '9999px' },
       colors: {
         // Base clara (fondo y tarjetas)
         linen: '#EAE4D9',

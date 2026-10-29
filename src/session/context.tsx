@@ -4,7 +4,7 @@
 import * as SecureStore from 'expo-secure-store';
 import { createContext, use, useEffect, useState, type PropsWithChildren } from 'react';
 import { Platform } from 'react-native';
-import { request, setToken } from '../api/client';
+import { request, setToken, setUnauthorizedHandler } from '../api/client';
 import type { User } from '../types';
 
 interface Session {
@@ -58,6 +58,16 @@ export function SessionProvider({ children }: PropsWithChildren) {
   // Al abrir la app: si hay un token guardado, se le pide el usuario al
   // backend. Así el nombre y el rol siempre vienen actualizados, y si el
   // token venció (o es inválido) se borra y la persona va al login.
+
+  useEffect(() => {
+  setUnauthorizedHandler(() => {
+    clearToken(); 
+    setToken(null);
+    setUser(null);
+  });
+  return () => setUnauthorizedHandler(null);
+}, []);
+
   useEffect(() => {
     const restoreSession = async () => {
       try {
