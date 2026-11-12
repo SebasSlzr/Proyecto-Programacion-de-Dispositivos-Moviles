@@ -21,6 +21,7 @@ export type Garment = {
   imageUrl: string | null;      // URL de Cloudinary, o null si no tiene foto
   imagePublicId: string | null; // identificador en Cloudinary, o null
   isFavorite: boolean;
+  dominantColor: string | null;  // hex detectado por el servidor, o null si no tiene foto
 };
 
 export type Outfit = {
@@ -30,4 +31,16 @@ export type Outfit = {
   torso: Garment[];
   legs: Garment | null;
   feet: Garment | null;
+};
+
+export type WishlistItem = {
+  id: string;
+  name: string;
+  url: string | null;          // link de la tienda o de la publicación de Instagram
+  store: string | null;
+  price: number | null;        // en pesos colombianos
+  imageUrl: string | null;
+  imagePublicId: string | null;
+  purchased: boolean;
+  createdAt: string;           // fecha ISO
 };
