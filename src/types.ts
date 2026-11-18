@@ -5,23 +5,21 @@ export type User = {
   name: string;
   email: string;
   role: UserRole;
+  wishlistReminders: boolean;        // ¿recibe recordatorios push de la wishlist?
 };
 
-export type AdminUser = User & {
-  garmentCount: number;
-  outfitCount: number;
-};
+export type AdminUser = User & { garmentCount: number; outfitCount: number };
 
 export type Garment = {
   id: string;
   name: string;
   category: string;
-  color: string;
-  swatchColor: string;          // color de muestra: respaldo cuando no hay foto
-  imageUrl: string | null;      // URL de Cloudinary, o null si no tiene foto
-  imagePublicId: string | null; // identificador en Cloudinary, o null
+  color: string;                     // nombre en español ("Azul marino")
+  swatchColor: string;               // hex de muestra: el detectado o el corregido por la usuaria
+  imageUrl: string | null;
+  imagePublicId: string | null;
   isFavorite: boolean;
-  dominantColor: string | null;  // hex detectado por el servidor, o null si no tiene foto
+  dominantColor: string | null;      // hex que detectó el servidor, o null si no tiene foto
 };
 
 export type Outfit = {
@@ -36,11 +34,25 @@ export type Outfit = {
 export type WishlistItem = {
   id: string;
   name: string;
-  url: string | null;          // link de la tienda o de la publicación de Instagram
+  url: string | null;                // link de la tienda o de la publicación
   store: string | null;
-  price: number | null;        // en pesos colombianos
+  price: number | null;              // pesos colombianos
+  category: string | null;           // una de CATEGORIES; la necesita la regla de los 3 outfits
   imageUrl: string | null;
   imagePublicId: string | null;
+  dominantColor: string | null;      // lo detecta el servidor a partir de la imagen
   purchased: boolean;
-  createdAt: string;           // fecha ISO
+  createdAt: string;                 // fecha ISO
 };
+
+// Lo que el servidor logró leer de un link (la imagen ya quedó subida a Cloudinary).
+export type WishlistPreview = {
+  name: string | null;
+  store: string | null;
+  price: number | null;
+  category: string | null;
+  imageUrl: string | null;
+  imagePublicId: string | null;
+};
+
+export type UserWardrobe = { user: AdminUser; garments: Garment[]; outfits: Outfit[] };
