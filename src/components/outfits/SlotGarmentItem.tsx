@@ -36,7 +36,7 @@ export function SlotGarmentItem({ garment, isSelected, order, onPress }: SlotGar
           </View>
         )}
       </View>
-      <Text className="font-body text-ink/70 text-xs max-w-16" numberOfLines={1}>
+      <Text className="font-body text-ink-muted text-xs max-w-16" numberOfLines={1}>
         {garment.name}
       </Text>
     </Pressable>

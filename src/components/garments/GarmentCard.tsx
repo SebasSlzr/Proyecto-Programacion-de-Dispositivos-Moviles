@@ -65,7 +65,7 @@ export function GarmentCard({ garment, onPress }: GarmentCardProps) {
                     {garment.name}
                   </Text>
                   <View className="flex-row items-center justify-between mt-1.5 gap-2">
-                    <Text className="font-body text-ink/70 text-xs flex-shrink" numberOfLines={1}>
+                    <Text className="font-body text-ink-muted text-xs flex-shrink" numberOfLines={1}>
                       {garment.category}
                     </Text>
                     <Badge label={garment.color} />

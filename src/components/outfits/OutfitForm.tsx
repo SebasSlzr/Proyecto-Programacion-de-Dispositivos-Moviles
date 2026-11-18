@@ -48,7 +48,7 @@ export function OutfitForm({ wardrobe, initialValues, onSubmit, submitLabel }: O
       ))}
 
       {!!error && (
-        <Text className="font-body text-sm text-red-500 bg-red-50 rounded-2xl p-3 text-center">{error}</Text>
+        <Text className="font-body text-sm text-danger bg-danger-soft rounded-2xl p-3 text-center">{error}</Text>
       )}
 
       <Button label={isSubmitting ? 'Guardando…' : submitLabel} onPress={submit} disabled={isSubmitting} />

@@ -18,7 +18,7 @@ export function EmptyState({ icon, title, description }: EmptyStateProps) {
         <Ionicons name={icon} size={28} color={COLORS.plum} />
       </View>
       <Text className="font-display text-xl text-ink text-center">{title}</Text>
-      <Text className="font-body text-ink/60 text-sm text-center mt-2">{description}</Text>
+      <Text className="font-body text-ink-muted text-sm text-center mt-2">{description}</Text>
     </View>
   );
 }

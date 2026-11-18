@@ -21,7 +21,7 @@ export function ModalHeader({ onDelete, title, subtitle, onClose = () => router.
       <View className={`flex-row mb-2 ${onDelete ? 'justify-between' : 'justify-end'}`}>
         {onDelete && (
           <Pressable onPress={onDelete}>
-            <Text className="font-body-medium text-red-500">Eliminar</Text>
+            <Text className="font-body-medium text-danger">Eliminar</Text>
           </Pressable>
         )}
         <Pressable onPress={onClose}>
