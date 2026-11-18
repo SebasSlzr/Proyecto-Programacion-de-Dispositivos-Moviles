@@ -85,7 +85,7 @@ export function GarmentForm({ initialValues, onSubmit, submitLabel }: GarmentFor
       </View>
 
       {!!form.error && (
-        <Text className="font-body text-sm text-red-500 bg-red-50 rounded-2xl p-3 text-center">{form.error}</Text>
+        <Text className="font-body text-sm text-danger bg-danger-soft rounded-2xl p-3 text-center">{form.error}</Text>
       )}
 
       <Button label={form.submitLabel ?? submitLabel} onPress={form.submit} disabled={form.isSubmitting} />

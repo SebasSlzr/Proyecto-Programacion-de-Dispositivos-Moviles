@@ -1,10 +1,11 @@
+import type { User } from '@/types';
 import { request } from './client';
-import type { User } from '../types';
 
 export type UserUpdateInput = {
   name?: string;
   email?: string;
   password?: string;
+  wishlistReminders?: boolean;
 };
 
 export function updateMe(changes: UserUpdateInput) {
@@ -13,4 +14,9 @@ export function updateMe(changes: UserUpdateInput) {
 
 export function deleteMe() {
   return request<{ message: string }>('/users/me', { method: 'DELETE' });
+}
+
+// Asocia este teléfono a la cuenta de la sesión; null lo desvincula.
+export function savePushToken(token: string | null) {
+  return request<void>('/users/me/push-token', { method: 'PUT', body: { token } });
 }

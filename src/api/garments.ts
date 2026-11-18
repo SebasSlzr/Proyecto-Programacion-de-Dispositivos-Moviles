@@ -4,8 +4,8 @@ import { request } from './client';
 export type GarmentInput = {
   name: string;
   category: string;
-  color: string;
-  swatchColor: string;
+  color?: string;          // opcional si hay imageUrl: el servidor lo llena
+  swatchColor?: string;    // opcional si hay imageUrl: el servidor usa el color detectado
   imageUrl?: string | null;
   imagePublicId?: string | null;
 };

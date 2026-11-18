@@ -22,6 +22,9 @@ module.exports = {
         'metal-light': '#E4DFD6',
         metal: '#B8B2A7',
         'metal-dark': '#8C867B',
+        'ink-muted': '#5C554E',   // texto secundario: 5.79:1 sobre linen
+        'sage-dark': '#4F5C44',   // texto verde: 6.78:1 sobre ivory
+        danger: { DEFAULT: '#B91C1C', soft: '#FEF2F2', border: '#FCA5A5' }, // errores: 5.11:1 sobre linen
       },
       fontFamily: {
         display: ['Fraunces_600SemiBold'],
