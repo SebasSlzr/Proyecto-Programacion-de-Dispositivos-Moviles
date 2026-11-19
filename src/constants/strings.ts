@@ -62,6 +62,21 @@ export const STRINGS = {
     noMatchDescription: 'Prueba con otro filtro u otra búsqueda.',
   },
   privacy: { title: 'Política de privacidad' },                                                // Luisa
-  outfits: { suggest: 'Sugerir outfit', anotherSuggestion: 'Otra sugerencia' },                // Castri
+  outfits: {                                                                                   // Castri
+    suggest: 'Sugerir outfit',
+    anotherSuggestion: 'Otra sugerencia',
+    cannotSuggest: 'Para sugerir un outfit necesitas al menos una prenda de torso y una de piernas, o un vestido.',
+    dismissSuggestion: 'Cerrar explicación',
+    suggestionNames: {
+      complementario: 'Combinación complementaria',
+      analogo: 'Combinación análoga',
+      neutro: 'Combinación neutra',
+    },
+    suggestionReasons: {
+      complementario: 'Colores opuestos en la rueda de color: se resaltan entre sí.',
+      analogo: 'Colores vecinos en la rueda de color: una combinación suave.',
+      neutro: 'Tonos neutros: combinan con todo.',
+    },
+  },
   notifications: { settingsTitle: 'Recordatorios' },                                           // Castri
 } as const;
