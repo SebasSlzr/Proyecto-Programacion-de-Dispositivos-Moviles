@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { router, type Href } from 'expo-router';
+import { router } from 'expo-router';
 import { listWishlist } from '@/api/wishlist';
 import { useFocusFetch } from '@/hooks/useFocusFetch';
 import type { WishlistItem } from '@/types';
@@ -9,11 +9,6 @@ export type WishlistFilter = 'pending' | 'purchased' | 'all';
 // Declarada fuera del hook para que sea estable: si se creara en cada render,
 // useFocusFetch recargaría la lista en bucle.
 const fetchWishlist = () => listWishlist().then((response) => response.items);
-
-// Las rutas /wishlist/... las crea Sebas en la Fase 0. Mientras no existan,
-// el tipado de rutas no las conoce; el "as string as Href" se quita cuando estén.
-const NEW_WISH_ROUTE = '/wishlist/new' as string as Href;
-const wishRoute = (id: string) => `/wishlist/${id}` as string as Href;
 
 // Lista de deseos: carga al volver a la pantalla, filtra por estado de compra
 // y busca por nombre o tienda. Todo el filtrado es local, no se vuelve a pedir al servidor.
@@ -35,11 +30,11 @@ export function useWishlistList() {
     });
   }, [items, filter, search]);
 
-  const openNewWish = () => router.push(NEW_WISH_ROUTE);
+  const openNewWish = () => router.push('/wishlist/new');
 
   // El detalle recibe solo el id y carga el deseo por su cuenta,
   // así también funciona cuando se abre desde la notificación.
-  const openWish = (item: WishlistItem) => router.push(wishRoute(item.id));
+  const openWish = (item: WishlistItem) => router.push({ pathname: '/wishlist/[id]', params: { id: item.id } });
 
   return {
     items,

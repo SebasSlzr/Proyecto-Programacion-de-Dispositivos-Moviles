@@ -9,20 +9,12 @@ import { COLORS } from '@/constants/theme';
 import { STRINGS } from '@/constants/strings';
 import { useWishlistList, type WishlistFilter } from './useWishlistList';
 
-// Textos provisionales: pasan a STRINGS.wishlist cuando Sebas una la Fase 0.
-const LABELS = {
-  pendingSubtitle: (count: number) => `${count} ${count === 1 ? 'deseo pendiente' : 'deseos pendientes'}`,
-  search: 'Buscar por nombre o tienda…',
-  emptyTitle: 'Tu lista de deseos está vacía',
-  emptyDescription: 'Toca "Agregar deseo" y pega el link de la prenda que te gustó.',
-  noMatchTitle: 'Nada coincide',
-  noMatchDescription: 'Prueba con otro filtro u otra búsqueda.',
-};
+const TEXT = STRINGS.wishlistScreens;
 
 const FILTERS: { value: WishlistFilter; label: string }[] = [
-  { value: 'pending', label: 'Pendientes' },
-  { value: 'purchased', label: 'Comprados' },
-  { value: 'all', label: 'Todos' },
+  { value: 'pending', label: TEXT.filterPending },
+  { value: 'purchased', label: TEXT.filterPurchased },
+  { value: 'all', label: TEXT.filterAll },
 ];
 
 // Lista de deseos: encabezado de madera fijo y una FlatList de una columna.
@@ -33,7 +25,7 @@ export default function WishlistScreen() {
 
   return (
     <View className="flex-1 bg-linen">
-      <WoodHeader title={STRINGS.titles.wishlist} subtitle={LABELS.pendingSubtitle(list.pendingCount)} />
+      <WoodHeader title={STRINGS.titles.wishlist} subtitle={`${list.pendingCount} ${list.pendingCount === 1 ? TEXT.pendingOne : TEXT.pendingMany}`} />
 
       <FlatList
         data={list.filteredItems}
@@ -53,10 +45,10 @@ export default function WishlistScreen() {
                 />
               ))}
             </View>
-            <SearchBar value={list.search} onChangeText={list.setSearch} placeholder={LABELS.search} />
+            <SearchBar value={list.search} onChangeText={list.setSearch} placeholder={TEXT.search} />
             <AddButton label={STRINGS.actions.addWish} onPress={list.openNewWish} />
             {!!list.error && !hasNoItems && (
-              <Text className="font-body text-sm text-red-500 bg-red-50 rounded-2xl p-3 text-center">
+              <Text className="font-body text-sm text-danger bg-danger-soft border border-danger-border rounded-2xl p-3 text-center">
                 {list.error}
               </Text>
             )}
@@ -67,8 +59,8 @@ export default function WishlistScreen() {
             isLoading={list.isLoading}
             error={list.error}
             isEmpty
-            emptyTitle={hasNoItems ? LABELS.emptyTitle : LABELS.noMatchTitle}
-            emptyDescription={hasNoItems ? LABELS.emptyDescription : LABELS.noMatchDescription}
+            emptyTitle={hasNoItems ? TEXT.emptyTitle : TEXT.noMatchTitle}
+            emptyDescription={hasNoItems ? TEXT.emptyDescription : TEXT.noMatchDescription}
           />
         }
         refreshControl={

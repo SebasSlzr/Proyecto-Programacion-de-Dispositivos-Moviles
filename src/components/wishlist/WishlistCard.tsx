@@ -1,16 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, Text, View } from 'react-native';
 import { GarmentImage } from '@/components/ui/GarmentImage';
+import { STRINGS } from '@/constants/strings';
 import { COLORS } from '@/constants/theme';
 import type { WishlistItem } from '@/types';
 import { formatPrice } from './formatPrice';
 
-// Textos provisionales: pasan a STRINGS.wishlist cuando Sebas una la Fase 0.
-const LABELS = {
-  purchased: 'Comprado',
-  pending: 'Pendiente',
-  noStore: 'Tienda sin indicar',
-};
+const TEXT = STRINGS.wishlistScreens;
 
 type WishlistCardProps = {
   item: WishlistItem;      // el deseo que se dibuja
@@ -21,7 +17,7 @@ type WishlistCardProps = {
 // nunca sobre madera) y a la derecha nombre, tienda, precio y estado de compra.
 export function WishlistCard({ item, onPress }: WishlistCardProps) {
   const price = formatPrice(item.price);
-  const status = item.purchased ? LABELS.purchased : LABELS.pending;
+  const status = item.purchased ? TEXT.purchased : TEXT.pending;
 
   // Lo que lee el lector de pantalla al llegar a la tarjeta.
   const a11yLabel = [item.name, item.store, price, status].filter(Boolean).join(', ');
@@ -47,7 +43,7 @@ export function WishlistCard({ item, onPress }: WishlistCardProps) {
             {item.name}
           </Text>
           <Text className="font-body text-xs text-walnut-light" numberOfLines={1}>
-            {item.store ?? LABELS.noStore}
+            {item.store ?? TEXT.noStore}
           </Text>
         </View>
 

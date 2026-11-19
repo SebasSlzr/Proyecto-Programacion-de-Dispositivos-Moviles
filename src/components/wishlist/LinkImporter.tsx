@@ -1,17 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Text, TextInput, View } from 'react-native';
 import { Button } from '@/components/ui/Button';
+import { STRINGS } from '@/constants/strings';
 import { COLORS } from '@/constants/theme';
 
-// Textos provisionales: pasan a STRINGS.wishlist cuando Sebas una la Fase 0.
-const LABELS = {
-  label: 'Link de la prenda',
-  placeholder: 'Pega el link de la tienda o de Instagram',
-  hint: 'Leemos el nombre, la tienda, el precio y la foto para que no los escribas tú.',
-  read: 'Leer link',
-  reading: 'Leyendo…',
-  done: 'Listo. Revisa los datos que encontramos y corrige lo que haga falta.',
-};
+const TEXT = STRINGS.wishlistScreens;
 
 type LinkImporterProps = {
   url: string;                       // lo que la usuaria escribió o pegó
@@ -30,12 +23,12 @@ export function LinkImporter({ url, onChangeUrl, onRead, isReading, error, done 
 
   return (
     <View className="gap-2 rounded-2xl border border-taupe bg-ivory p-4">
-      <Text className="font-body-medium text-sm text-ink">{LABELS.label}</Text>
+      <Text className="font-body-medium text-sm text-ink">{TEXT.linkLabel}</Text>
 
       <TextInput
         value={url}
         onChangeText={onChangeUrl}
-        placeholder={LABELS.placeholder}
+        placeholder={TEXT.linkPlaceholder}
         placeholderTextColor={COLORS.ink + '80'}
         keyboardType="url"
         autoCapitalize="none"
@@ -43,26 +36,26 @@ export function LinkImporter({ url, onChangeUrl, onRead, isReading, error, done 
         returnKeyType="go"
         onSubmitEditing={canRead ? onRead : undefined}
         editable={!isReading}
-        accessibilityLabel={LABELS.label}
-        accessibilityHint={LABELS.hint}
+        accessibilityLabel={TEXT.linkLabel}
+        accessibilityHint={TEXT.linkHint}
         className="min-h-12 rounded-2xl border border-taupe bg-linen px-4 py-3 font-body text-ink"
       />
 
-      <Text className="font-body text-xs text-walnut-light">{LABELS.hint}</Text>
+      <Text className="font-body text-xs text-walnut-light">{TEXT.linkHint}</Text>
 
-      <Button label={isReading ? LABELS.reading : LABELS.read} onPress={onRead} variant="secondary" disabled={!canRead} />
+      <Button label={isReading ? TEXT.readingLink : TEXT.readLink} onPress={onRead} variant="secondary" disabled={!canRead} />
 
       {!!error && (
-        <View accessibilityLiveRegion="polite" className="flex-row items-start gap-2 rounded-2xl bg-red-50 p-3">
+        <View accessibilityLiveRegion="polite" className="flex-row items-start gap-2 rounded-2xl bg-danger-soft border border-danger-border p-3">
           <Ionicons name="alert-circle" size={18} color={COLORS.walnut} />
-          <Text className="flex-1 font-body text-sm text-red-700">{error}</Text>
+          <Text className="flex-1 font-body text-sm text-danger">{error}</Text>
         </View>
       )}
 
       {done && !error && (
         <View accessibilityLiveRegion="polite" className="flex-row items-start gap-2 rounded-2xl border border-taupe p-3">
           <Ionicons name="checkmark-circle" size={18} color={COLORS.walnut} />
-          <Text className="flex-1 font-body text-sm text-ink">{LABELS.done}</Text>
+          <Text className="flex-1 font-body text-sm text-ink">{TEXT.linkDone}</Text>
         </View>
       )}
     </View>

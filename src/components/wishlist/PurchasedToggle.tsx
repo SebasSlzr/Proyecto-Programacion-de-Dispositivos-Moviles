@@ -1,14 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, Text } from 'react-native';
+import { STRINGS } from '@/constants/strings';
 import { COLORS } from '@/constants/theme';
 
-// Textos provisionales: pasan a STRINGS.wishlist cuando Sebas una la Fase 0.
-const LABELS = {
-  purchased: 'Comprado',
-  pending: 'Marcar como comprado',
-  a11yPurchased: 'Comprado. Toca para marcarlo como pendiente',
-  a11yPending: 'Pendiente. Toca para marcarlo como comprado',
-};
+const TEXT = STRINGS.wishlistScreens;
 
 type PurchasedToggleProps = {
   purchased: boolean;      // estado actual del deseo
@@ -25,7 +20,7 @@ export function PurchasedToggle({ purchased, onToggle, disabled = false }: Purch
       disabled={disabled}
       accessibilityRole="switch"
       accessibilityState={{ checked: purchased, disabled }}
-      accessibilityLabel={purchased ? LABELS.a11yPurchased : LABELS.a11yPending}
+      accessibilityLabel={purchased ? TEXT.a11yPurchased : TEXT.a11yPending}
       className={`min-h-12 flex-row items-center justify-center gap-2 rounded-full px-5 border active:translate-y-px ${
         purchased ? 'bg-walnut border-walnut' : 'bg-ivory border-walnut'
       } ${disabled ? 'opacity-50' : ''}`}
@@ -37,7 +32,7 @@ export function PurchasedToggle({ purchased, onToggle, disabled = false }: Purch
         color={purchased ? COLORS.ivory : COLORS.walnut}
       />
       <Text className={`font-body-bold text-base ${purchased ? 'text-ivory' : 'text-walnut'}`}>
-        {purchased ? LABELS.purchased : LABELS.pending}
+        {purchased ? TEXT.purchased : TEXT.markPurchased}
       </Text>
     </Pressable>
   );
