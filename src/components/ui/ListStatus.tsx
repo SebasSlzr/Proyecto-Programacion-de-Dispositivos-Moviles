@@ -18,14 +18,14 @@ export function ListStatus({ isLoading, error, isEmpty, emptyTitle, emptyDescrip
   }
 
   if (error) {
-    return <Text className="font-body text-red-500 text-center mt-10">{error}</Text>;
+    return <Text className="font-body text-danger text-center mt-10">{error}</Text>;
   }
 
   if (isEmpty) {
     return (
       <View className="items-center mt-16 px-8">
         <Text className="font-display text-xl text-ink text-center">{emptyTitle}</Text>
-        <Text className="font-body text-ink/60 text-sm text-center mt-2">{emptyDescription}</Text>
+        <Text className="font-body text-ink-muted text-sm text-center mt-2">{emptyDescription}</Text>
       </View>
     );
   }

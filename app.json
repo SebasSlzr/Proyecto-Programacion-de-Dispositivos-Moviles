@@ -42,7 +42,8 @@
           "photosPermission": "Percha usa tu galería para elegir fotos de tus prendas.",
           "cameraPermission": "Percha usa la cámara para fotografiar tus prendas."
         }
-      ]
+      ],
+      ["expo-notifications", { "color": "#4A2F1E" }]
     ],
     "experiments": {
       "typedRoutes": true,

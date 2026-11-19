@@ -12,7 +12,7 @@ export function ScreenHeader({ title, subtitle }: ScreenHeaderProps) {
     <View>
       <Text className="font-display text-3xl text-ink">{title}</Text>
       {subtitle ? (
-        <Text className="font-body text-ink/60 text-sm mt-1">{subtitle}</Text>
+        <Text className="font-body text-ink-muted text-sm mt-1">{subtitle}</Text>
       ) : null}
     </View>
   );

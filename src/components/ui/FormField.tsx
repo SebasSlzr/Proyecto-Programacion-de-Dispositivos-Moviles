@@ -39,7 +39,7 @@ export function FormField<T extends FieldValues>({
           <Text className="font-body-medium text-ink text-sm">{label}</Text>
           <TextInput
             className={`bg-ivory border rounded-2xl px-4 py-3 font-body text-ink ${
-              error ? 'border-red-400' : 'border-taupe'
+              error ? 'border-danger-border' : 'border-taupe'
             }`}
             value={value}
             onChangeText={onChange}
@@ -49,7 +49,7 @@ export function FormField<T extends FieldValues>({
             {...input}
           />
           {/* El mensaje sale de las `rules`: quien define la regla define el texto. */}
-          {!!error && <Text className="font-body text-xs text-red-500">{error.message}</Text>}
+          {!!error && <Text className="font-body text-xs text-danger">{error.message}</Text>}
         </View>
       )}
     />
