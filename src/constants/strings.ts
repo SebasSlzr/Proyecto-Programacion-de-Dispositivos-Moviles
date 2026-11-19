@@ -31,7 +31,32 @@ export const STRINGS = {
   wardrobe: { allColors: 'Todos los colores', emptyColor: 'No tienes prendas de este color' }, // Daniel
   admin: { panel: 'Usuarios', userDetail: 'Armario del usuario' },                            // Daniel
   dialogs: { confirm: 'Confirmar', cancel: 'Cancelar', ok: 'Entendido' },                     // Daniel
-  wishlistScreens: { readLink: 'Leer link' },                                                  // Luisa
+  // Luisa
+  wishlistScreens: {
+    readLink: 'Leer link',
+    readingLink: 'Leyendo…',
+    linkLabel: 'Link de la prenda',
+    linkPlaceholder: 'Pega el link de la tienda o de Instagram',
+    linkHint: 'Leemos el nombre, la tienda, el precio y la foto para que no los escribas tú.',
+    linkDone: 'Listo. Revisa los datos que encontramos y corrige lo que haga falta.',
+    linkFailed: 'No pudimos leer ese link. Completa los datos y sube una captura de la publicación',
+    purchased: 'Comprado',
+    pending: 'Pendiente',
+    markPurchased: 'Marcar como comprado',
+    a11yPurchased: 'Comprado. Toca para marcarlo como pendiente',
+    a11yPending: 'Pendiente. Toca para marcarlo como comprado',
+    noStore: 'Tienda sin indicar',
+    filterPending: 'Pendientes',
+    filterPurchased: 'Comprados',
+    filterAll: 'Todos',
+    search: 'Buscar por nombre o tienda…',
+    pendingOne: 'deseo pendiente',
+    pendingMany: 'deseos pendientes',
+    emptyTitle: 'Tu lista de deseos está vacía',
+    emptyDescription: 'Toca "Agregar deseo" y pega el link de la prenda que te gustó.',
+    noMatchTitle: 'Nada coincide',
+    noMatchDescription: 'Prueba con otro filtro u otra búsqueda.',
+  },
   privacy: { title: 'Política de privacidad' },                                                // Luisa
   outfits: { suggest: 'Sugerir outfit', anotherSuggestion: 'Otra sugerencia' },                // Castri
   notifications: { settingsTitle: 'Recordatorios' },                                           // Castri
