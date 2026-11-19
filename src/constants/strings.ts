@@ -28,7 +28,11 @@ export const STRINGS = {
   },
   messages: { noChanges: 'No hiciste ningún cambio' },
     // Bloques por persona: cada quien agrega claves SOLO dentro del suyo (así no chocan las ramas).
-  wardrobe: { allColors: 'Todos los colores', emptyColor: 'No tienes prendas de este color' }, // Daniel
+  wardrobe: {                                                                                  // Daniel
+    allColors: 'Todos los colores',
+    emptyColor: 'No tienes prendas de este color',
+    emptyColorDescription: 'Prueba con otro color o toca "Todos los colores".',
+  },
   admin: { panel: 'Usuarios', userDetail: 'Armario del usuario' },                            // Daniel
   dialogs: { confirm: 'Confirmar', cancel: 'Cancelar', ok: 'Entendido' },                     // Daniel
   wishlistScreens: { readLink: 'Leer link' },                                                  // Luisa
