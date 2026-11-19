@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/Badge';
 import { GarmentImage } from '@/components/ui/GarmentImage';
 import { Hanger } from '@/components/ui/Hanger';
 import { MetalRail } from '@/components/ui/MetalRail';
+import { COLORS } from '@/constants/theme';
 import type { Garment } from '@/types';
 
 type GarmentCardProps = {
@@ -13,7 +14,7 @@ type GarmentCardProps = {
 // Sombra suave en reposo y casi nula al presionar: la tarjeta "se acerca" al fondo.
 // Va en un contenedor sin overflow: 'hidden', porque en iOS ese estilo recorta la sombra.
 const RESTING_SHADOW = {
-  shadowColor: '#1E120A',
+  shadowColor: COLORS.shadow,
   shadowOffset: { width: 0, height: 3 },
   shadowOpacity: 0.18,
   shadowRadius: 6,
@@ -21,7 +22,7 @@ const RESTING_SHADOW = {
 };
 
 const PRESSED_SHADOW = {
-  shadowColor: '#1E120A',
+  shadowColor: COLORS.shadow,
   shadowOffset: { width: 0, height: 1 },
   shadowOpacity: 0.08,
   shadowRadius: 2,

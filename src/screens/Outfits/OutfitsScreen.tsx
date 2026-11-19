@@ -1,6 +1,8 @@
 import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { OutfitCard } from '@/components/outfits/OutfitCard';
 import { AddButton } from '@/components/ui/AddButton';
+import { Button } from '@/components/ui/Button';
+import { STRINGS } from '@/constants/strings';
 import { ListStatus } from '@/components/ui/ListStatus';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { WoodHeader } from '@/components/ui/WoodHeader';
@@ -32,7 +34,10 @@ export default function OutfitsScreen() {
         ListHeaderComponent={
           <View className="gap-3 mb-6">
             <SearchBar value={list.search} onChangeText={list.setSearch} placeholder="Buscar outfit…" />
-            <AddButton label="Agregar outfit" onPress={list.openNewOutfit} />
+            {/* Dos acciones: armar uno a mano (primaria, madera) o pedir una sugerencia
+                por armonía de color (secundaria, borde de nogal). */}
+            <AddButton label={STRINGS.actions.addOutfit} onPress={list.openNewOutfit} />
+            <Button label={STRINGS.actions.suggestOutfit} variant="secondary" onPress={list.openSuggestedOutfit} />
             {!!list.error && !hasNoOutfits && (
               <Text className="font-body text-sm text-danger bg-danger-soft rounded-2xl p-3 text-center">
                 {list.error}
