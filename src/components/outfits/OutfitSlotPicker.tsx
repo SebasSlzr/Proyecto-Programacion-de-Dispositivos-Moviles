@@ -27,7 +27,7 @@ export function OutfitSlotPicker({ label, garments, selectedIds, multiple, onCha
       </WoodSurface>
 
       {garments.length === 0 ? (
-        <Text className="font-body text-ink/60 text-xs px-1">No tienes prendas para esta zona todavía.</Text>
+        <Text className="font-body text-ink-muted text-xs px-1">No tienes prendas para esta zona todavía.</Text>
       ) : (
         <ScrollView
           horizontal

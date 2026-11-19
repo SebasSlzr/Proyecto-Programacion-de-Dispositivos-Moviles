@@ -45,12 +45,12 @@ export function ProfileForm({ user }: ProfileFormProps) {
       />
 
       {!!error && (
-        <Text className="font-body text-sm text-red-500 bg-red-50 rounded-2xl p-3 text-center">
+        <Text className="font-body text-sm text-danger bg-danger-soft rounded-2xl p-3 text-center">
           {error}
         </Text>
       )}
       {!!success && (
-        <Text className="font-body text-sm text-sage bg-sage/10 rounded-2xl p-3 text-center">
+        <Text className="font-body text-sm text-sage-dark bg-sage/10 rounded-2xl p-3 text-center">
           {success}
         </Text>
       )}

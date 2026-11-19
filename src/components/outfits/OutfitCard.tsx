@@ -90,7 +90,7 @@ export function OutfitCard({ outfit, onPress }: OutfitCardProps) {
                 <Text className="font-body-bold text-ink text-sm mt-3" numberOfLines={1}>
                   {outfit.name}
                 </Text>
-                <Text className="font-body text-ink/70 text-xs mt-0.5">{countLabel}</Text>
+                <Text className="font-body text-ink-muted text-xs mt-0.5">{countLabel}</Text>
               </View>
             </View>
           </View>
