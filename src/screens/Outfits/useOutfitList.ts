@@ -17,6 +17,11 @@ export function useOutfitList() {
 
   const openNewOutfit = () => router.push('/outfit/new');
 
+  // Abre el creador pidiéndole una sugerencia (contrato 6.5): los parámetros de
+  // ruta solo aceptan texto, por eso es '1' y no true. El creador (de Castri)
+  // lee `suggest` y arma la combinación con sugerirOutfit al abrir.
+  const openSuggestedOutfit = () => router.push({ pathname: '/outfit/new', params: { suggest: '1' } });
+
   // Los parámetros de ruta solo pueden ser texto: el torso (varias prendas)
   // viaja como JSON y la pantalla de edición lo vuelve a convertir.
   const openOutfit = (outfit: Outfit) =>
@@ -42,6 +47,7 @@ export function useOutfitList() {
     error,
     onRefresh,
     openNewOutfit,
+    openSuggestedOutfit,
     openOutfit,
   };
 }

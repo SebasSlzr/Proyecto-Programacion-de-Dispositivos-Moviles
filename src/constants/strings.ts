@@ -28,7 +28,11 @@ export const STRINGS = {
   },
   messages: { noChanges: 'No hiciste ningún cambio' },
     // Bloques por persona: cada quien agrega claves SOLO dentro del suyo (así no chocan las ramas).
-  wardrobe: { allColors: 'Todos los colores', emptyColor: 'No tienes prendas de este color' }, // Daniel
+  wardrobe: {                                                                                  // Daniel
+    allColors: 'Todos los colores',
+    emptyColor: 'No tienes prendas de este color',
+    emptyColorDescription: 'Prueba con otro color o toca "Todos los colores".',
+  },
   admin: { panel: 'Usuarios', userDetail: 'Armario del usuario' },                            // Daniel
   dialogs: { confirm: 'Confirmar', cancel: 'Cancelar', ok: 'Entendido' },                     // Daniel
   // Luisa
@@ -76,6 +80,21 @@ export const STRINGS = {
     errorPrice: 'Escribe el precio solo con números',
   },
   privacy: { title: 'Política de privacidad' },                                                // Luisa
-  outfits: { suggest: 'Sugerir outfit', anotherSuggestion: 'Otra sugerencia' },                // Castri
+  outfits: {                                                                                   // Castri
+    suggest: 'Sugerir outfit',
+    anotherSuggestion: 'Otra sugerencia',
+    cannotSuggest: 'Para sugerir un outfit necesitas al menos una prenda de torso y una de piernas, o un vestido.',
+    dismissSuggestion: 'Cerrar explicación',
+    suggestionNames: {
+      complementario: 'Combinación complementaria',
+      analogo: 'Combinación análoga',
+      neutro: 'Combinación neutra',
+    },
+    suggestionReasons: {
+      complementario: 'Colores opuestos en la rueda de color: se resaltan entre sí.',
+      analogo: 'Colores vecinos en la rueda de color: una combinación suave.',
+      neutro: 'Tonos neutros: combinan con todo.',
+    },
+  },
   notifications: { settingsTitle: 'Recordatorios' },                                           // Castri
 } as const;

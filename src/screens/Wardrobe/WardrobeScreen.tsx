@@ -1,5 +1,6 @@
 import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { CategoryFilter } from '@/components/garments/CategoryFilter';
+import { ColorFilter } from '@/components/garments/ColorFilter';
 import { GarmentCard } from '@/components/garments/GarmentCard';
 import { AddButton } from '@/components/ui/AddButton';
 import { ListStatus } from '@/components/ui/ListStatus';
@@ -19,6 +20,8 @@ export default function WardrobeScreen() {
   const list = useGarmentList();
   const total = list.garments.length;
   const isWardrobeEmpty = total === 0;
+  // Si lo único activo es el filtro de color, el mensaje vacío habla del color.
+  const isOnlyColorFiltered = !!list.colorFilter && !list.categoryFilter && !list.search;
 
   return (
     <View className="flex-1 bg-linen">
@@ -45,6 +48,15 @@ export default function WardrobeScreen() {
               onSelect={list.toggleCategory}
               onClear={list.clearCategory}
             />
+            {/* Solo aparece si hay prendas: muestra las familias de color presentes. */}
+            {list.availableColors.length > 0 && (
+              <ColorFilter
+                available={list.availableColors}
+                selected={list.colorFilter}
+                onSelect={list.toggleColor}
+                onClear={list.clearColor}
+              />
+            )}
             <AddButton label={STRINGS.actions.addGarment} onPress={list.openNewGarment} />
             {/* Si falla una recarga pero ya hay prendas, se avisa sin esconder la lista. */}
             {!!list.error && !isWardrobeEmpty && (
@@ -59,11 +71,19 @@ export default function WardrobeScreen() {
             isLoading={list.isLoading}
             error={list.error}
             isEmpty
-            emptyTitle={isWardrobeEmpty ? 'Tu armario está vacío' : 'Nada coincide con tu búsqueda'}
+            emptyTitle={
+              isWardrobeEmpty
+                ? 'Tu armario está vacío'
+                : isOnlyColorFiltered
+                  ? STRINGS.wardrobe.emptyColor
+                  : 'Nada coincide con tu búsqueda'
+            }
             emptyDescription={
               isWardrobeEmpty
                 ? 'Toca "Agregar prenda" para empezar.'
-                : 'Prueba con otro texto o quita el filtro de categoría.'
+                : isOnlyColorFiltered
+                  ? STRINGS.wardrobe.emptyColorDescription
+                  : 'Prueba con otro texto o quita los filtros de categoría y color.'
             }
           />
         }

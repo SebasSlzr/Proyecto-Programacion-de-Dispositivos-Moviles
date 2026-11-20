@@ -6,7 +6,7 @@ import { COLORS } from '@/constants/theme';
 import { useNewOutfit } from './useNewOutfit';
 
 export default function NewOutfitScreen() {
-  const { wardrobe, isLoading, saveOutfit } = useNewOutfit();
+  const { wardrobe, isLoading, prefill, autoSuggest, saveOutfit } = useNewOutfit();
 
   return (
     <View className="flex-1 bg-linen px-6" style={{ paddingTop: 60 }}>
@@ -18,7 +18,14 @@ export default function NewOutfitScreen() {
         {isLoading ? (
           <ActivityIndicator color={COLORS.walnut} style={{ marginTop: 40 }} />
         ) : (
-          <OutfitForm wardrobe={wardrobe} submitLabel="Guardar outfit" onSubmit={saveOutfit} />
+          <OutfitForm
+            wardrobe={wardrobe}
+            prefill={prefill}
+            suggestions
+            autoSuggest={autoSuggest}
+            submitLabel="Guardar outfit"
+            onSubmit={saveOutfit}
+          />
         )}
       </View>
     </View>
