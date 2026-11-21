@@ -1,5 +1,6 @@
 import { Text } from 'react-native';
 import { Button } from '@/components/ui/Button';
+import { PasswordField } from '@/components/ui/PasswordField';
 import { TextField } from '@/components/ui/TextField';
 import type { User } from '@/types';
 import { useProfileForm } from './useProfileForm';
@@ -35,11 +36,10 @@ export function ProfileForm({ user }: ProfileFormProps) {
         maxLength={254}
       />
 
-      <TextField
+      <PasswordField
         label="Nueva contraseña (opcional)"
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
         placeholder="Déjalo vacío si no la quieres cambiar"
         maxLength={72}
       />

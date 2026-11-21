@@ -1,8 +1,10 @@
 import { Link } from 'expo-router';
+import { Controller } from 'react-hook-form';
 import { View } from 'react-native';
 import { Button } from '@/components/ui/Button';
 import { FormError } from '@/components/ui/FormError';
 import { FormField } from '@/components/ui/FormField';
+import { PasswordField } from '@/components/ui/PasswordField';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { useLogin } from './useLogin';
 
@@ -27,17 +29,24 @@ export default function LoginScreen() {
             pattern: { value: /^\S+@\S+\.\S+$/, message: 'Correo inválido' },
           }}
         />
-        <FormField
+        <Controller
           control={control}
           name="password"
-          label="Contraseña"
-          secureTextEntry
-          placeholder="••••••••"
-          maxLength={72}
           rules={{
             required: 'La contraseña es obligatoria',
             maxLength: { value: 72, message: 'Máximo 72 caracteres' },
           }}
+          render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+            <PasswordField
+              label="Contraseña"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              placeholder="••••••••"
+              maxLength={72}
+              error={error?.message}
+            />
+          )}
         />
       </View>
 

@@ -62,6 +62,7 @@ export const STRINGS = {
     noMatchDescription: 'Prueba con otro filtro u otra búsqueda.',
   },
   privacy: { title: 'Política de privacidad' },                                                // Luisa
+  passwordField: { show: 'Mostrar contraseña', hide: 'Ocultar contraseña' },                   // Luisa
   outfits: {                                                                                   // Castri
     suggest: 'Sugerir outfit',
     anotherSuggestion: 'Otra sugerencia',
