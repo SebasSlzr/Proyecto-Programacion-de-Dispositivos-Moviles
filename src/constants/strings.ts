@@ -96,7 +96,72 @@ export const STRINGS = {
     deleteConfirm: 'Eliminar',
     editSubtitle: 'Corrige los datos de tu deseo',
   },
-  privacy: { title: 'Política de privacidad' },                                                // Luisa
+  // Luisa
+  privacy: {
+    title: 'Política de privacidad',
+    subtitle: 'Actualizada el 22 de noviembre de 2026',
+    contactEmail: 'luisamariaarangolopez@gmail.com',
+    sections: [
+      {
+        title: 'Quiénes somos',
+        body: [
+          'Percha es un proyecto académico del curso Programación de Dispositivos Móviles de la Universidad Autónoma de Manizales, hecho por el equipo de Percha.',
+          'Si tienes preguntas sobre tus datos, escríbenos al correo del equipo que aparece al final.',
+        ],
+      },
+      {
+        title: 'Qué datos recogemos',
+        body: [
+          'Tu nombre, tu correo y tu contraseña. La contraseña se guarda cifrada: nadie la puede leer, ni siquiera el equipo.',
+          'Las fotos de tus prendas y el color que detectamos en ellas, tus outfits y los deseos de tu lista (link, tienda y precio).',
+          'El identificador de tu teléfono para enviarte notificaciones push.',
+          'La hora del outfit del día, que solo se guarda en tu celular.',
+        ],
+      },
+      {
+        title: 'Para qué los usamos',
+        body: [
+          'Para mostrarte tu armario, sugerirte outfits, ayudarte a decidir si una compra combina con lo que ya tienes y enviarte recordatorios.',
+          'No vendemos ni compartimos tus datos con fines comerciales.',
+        ],
+      },
+      {
+        title: 'Quién más los ve',
+        body: [
+          'Los administradores de Percha pueden ver, solo en modo lectura, las prendas y los outfits de una cuenta, para dar soporte y moderar el contenido.',
+          'También pueden eliminar cuentas. Nunca ven tu contraseña.',
+        ],
+      },
+      {
+        title: 'Servicios de terceros',
+        body: [
+          'Cloudinary guarda las imágenes, MongoDB Atlas la base de datos y Render el servidor.',
+          'Expo y Firebase Cloud Messaging envían las notificaciones.',
+        ],
+      },
+      {
+        title: 'Tus derechos',
+        body: [
+          'Según la Ley 1581 de 2012 de Colombia, puedes conocer, actualizar, rectificar y suprimir tus datos.',
+          'Puedes cambiar tu nombre, correo y contraseña desde tu perfil.',
+          'Para eliminar tu cuenta, abre tu perfil y toca "Eliminar cuenta": se borran tus datos y tus fotos.',
+          'Para dejar de recibir notificaciones, ve a "Recordatorios" en tu perfil o desactívalas en los ajustes del teléfono.',
+        ],
+      },
+    ],
+    contactLabel: 'Contacto',
+    disclaimer: 'Este texto hace parte de un proyecto académico y no es una asesoría legal.',
+  },
+  drawerLinks: { reminders: 'Recordatorios', privacy: 'Política de privacidad' },                // Luisa
+  garmentColor: {                                                                               // Luisa
+    autoHint: 'El color se detecta automáticamente al guardar. Puedes corregirlo si no coincide.',
+    nameLabel: 'Color (nombre)',
+    nameLabelOptional: 'Color (nombre, opcional)',
+    swatchLabel: 'Color de la prenda',
+    detected: 'Color detectado',
+    required: 'El nombre y el color son obligatorios',
+    nameRequired: 'El nombre es obligatorio',
+  },
   outfits: {                                                                                   // Castri
     suggest: 'Sugerir outfit',
     anotherSuggestion: 'Otra sugerencia',
