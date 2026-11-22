@@ -2,6 +2,7 @@ import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSession } from '@/session/context';
 import { AccountActions } from './AccountActions';
+import { DrawerLinks } from './DrawerLinks';
 import { ProfileForm } from './ProfileForm';
 import { ProfileHeader } from './ProfileHeader';
 
@@ -27,6 +28,7 @@ export function ProfileDrawerContent({ navigation }: ProfileDrawerContentProps) 
         <View className="bg-ivory rounded-2xl p-4 gap-4 shadow-sm border border-taupe">
           <ProfileForm user={user} />
         </View>
+        <DrawerLinks role={user.role} onNavigate={() => navigation.closeDrawer()} />
         <AccountActions bottomInset={insets.bottom} />
       </ScrollView>
     </View>
