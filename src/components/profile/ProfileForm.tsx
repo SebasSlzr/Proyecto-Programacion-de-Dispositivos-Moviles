@@ -2,6 +2,7 @@ import { Text } from 'react-native';
 import { Button } from '@/components/ui/Button';
 import { PasswordField } from '@/components/ui/PasswordField';
 import { TextField } from '@/components/ui/TextField';
+import { STRINGS } from '@/constants/strings';
 import type { User } from '@/types';
 import { useProfileForm } from './useProfileForm';
 
@@ -17,6 +18,10 @@ export function ProfileForm({ user }: ProfileFormProps) {
     setEmail,
     password,
     setPassword,
+    confirmPassword,
+    setConfirmPassword,
+    passwordError,
+    confirmError,
     isSubmitting,
     error,
     success,
@@ -37,11 +42,21 @@ export function ProfileForm({ user }: ProfileFormProps) {
       />
 
       <PasswordField
-        label="Nueva contraseña (opcional)"
+        label={STRINGS.passwordField.newLabel}
         value={password}
         onChangeText={setPassword}
-        placeholder="Déjalo vacío si no la quieres cambiar"
+        placeholder={STRINGS.passwordField.newPlaceholder}
         maxLength={72}
+        error={passwordError}
+      />
+
+      <PasswordField
+        label={STRINGS.passwordField.confirmLabel}
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        placeholder={STRINGS.passwordField.confirmPlaceholder}
+        maxLength={72}
+        error={confirmError}
       />
 
       {!!error && (
