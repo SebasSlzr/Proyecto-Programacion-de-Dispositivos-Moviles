@@ -1,7 +1,8 @@
 import type { GarmentInput } from '@/api/garments';
 import { Button } from '@/components/ui/Button';
 import { Chip } from '@/components/ui/Chip';
-import { CATEGORIES, SWATCH_OPTIONS } from '@/constants/garments';
+import { CATEGORIES } from '@/constants/garments';
+import { STRINGS } from '@/constants/strings';
 import { COLORS } from '@/constants/theme';
 import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { PhotoPicker } from './PhotoPicker';
@@ -52,7 +53,14 @@ export function GarmentForm({ initialValues, onSubmit, submitLabel }: GarmentFor
       </View>
 
       <View className="gap-1.5">
-        <Text className="font-body-medium text-ink text-sm">Color (nombre)</Text>
+        {form.hasPhoto && (
+          <Text accessibilityLiveRegion="polite" className="font-body text-sm text-ink-muted pb-1">
+            {STRINGS.garmentColor.autoHint}
+          </Text>
+        )}
+        <Text className="font-body-medium text-ink text-sm">
+          {form.hasPhoto ? STRINGS.garmentColor.nameLabelOptional : STRINGS.garmentColor.nameLabel}
+        </Text>
         <TextInput
           className="font-body bg-ivory rounded-2xl px-4 py-3 text-ink border border-taupe"
           placeholder="Ej. Azul, Negro, Vino tinto..."
@@ -64,15 +72,15 @@ export function GarmentForm({ initialValues, onSubmit, submitLabel }: GarmentFor
       </View>
 
       <View className="gap-1.5">
-        <Text className="font-body-medium text-ink text-sm">Color de la prenda</Text>
+        <Text className="font-body-medium text-ink text-sm">{STRINGS.garmentColor.swatchLabel}</Text>
         <View className="flex-row flex-wrap gap-3">
-          {SWATCH_OPTIONS.map((hex) => (
+          {form.swatchOptions.map((hex) => (
             <Pressable
               key={hex}
               onPress={() => form.setSwatchColor(hex)}
               className="w-12 h-12 rounded-full"
               accessibilityRole="button"
-              accessibilityLabel={`Color ${hex}`}
+              accessibilityLabel={hex === form.detectedSwatch ? STRINGS.garmentColor.detected : `Color ${hex}`}
               accessibilityState={{ selected: form.swatchColor === hex }}
               style={{
                 backgroundColor: hex,
