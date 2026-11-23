@@ -7,6 +7,7 @@ import { ConfirmDialogProvider } from '@/context/ConfirmDialogContext';
 import { type Href } from 'expo-router';
 import { useNotificationObserver } from '@/notifications/useNotificationObserver';
 import { usePushRegistration } from '@/notifications/push';
+import { useDailyOutfitScheduler } from '@/notifications/useDailyOutfitScheduler';
 
 // El SessionProvider va afuera de todo para que la restauración de la
 // sesión empiece de inmediato, al mismo tiempo que se cargan las fuentes.
@@ -30,6 +31,7 @@ function Navigator() {
 
   usePushRegistration(!!user);
   useNotificationObserver(!isRestoring && !!user);
+  useDailyOutfitScheduler(isUser);
 
   return (
     <Stack screenOptions={{ headerShown: false }}>

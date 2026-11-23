@@ -89,5 +89,11 @@ export const STRINGS = {
       outfitLabel: (n: number) => `Outfit ${n}`,
     },
   },
-  notifications: { settingsTitle: 'Recordatorios' },                                           // Castri
+    notifications: {                                                                              // Castri
+    settingsTitle: 'Recordatorios',
+    daily: {
+      title: 'Tu outfit de hoy',
+      body: (prendas: string) => `${prendas}. Toca para verlo.`,
+    },
+  },
 } as const;
