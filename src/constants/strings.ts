@@ -77,6 +77,17 @@ export const STRINGS = {
       analogo: 'Colores vecinos en la rueda de color: una combinación suave.',
       neutro: 'Tonos neutros: combinan con todo.',
     },
+    // Regla de los 3 outfits (detalle de un deseo)
+    wishMatches: {
+      title: 'Con lo que ya tienes',
+      worth: (n: number) => `Vale la pena: combina con ${n} outfits de tu armario`,
+      think: (n: number) => `Piénsalo: con lo que tienes solo armas ${n} ${n === 1 ? 'outfit' : 'outfits'}`,
+      none: 'No combina con tu armario actual',
+      missingData: 'Agrega la categoría y una foto para analizarla',
+      emptyWardrobe: 'Agrega prendas a tu armario para analizar esta compra',
+      newBadge: 'Nueva',
+      outfitLabel: (n: number) => `Outfit ${n}`,
+    },
   },
   notifications: { settingsTitle: 'Recordatorios' },                                           // Castri
 } as const;
