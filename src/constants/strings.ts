@@ -162,6 +162,22 @@ export const STRINGS = {
     required: 'El nombre y el color son obligatorios',
     nameRequired: 'El nombre es obligatorio',
   },
+  // Luisa
+  passwordField: {
+    show: 'Mostrar contraseña',
+    hide: 'Ocultar contraseña',
+    newLabel: 'Nueva contraseña (opcional)',
+    newPlaceholder: 'Déjalo vacío si no la quieres cambiar',
+    confirmLabel: 'Confirmar nueva contraseña',
+    confirmPlaceholder: 'Escríbela otra vez',
+    minLength: 'Mínimo 8 caracteres',
+    mismatch: 'Las contraseñas no coinciden',
+    confirmTitle: 'Cambiar contraseña',
+    confirmMessage: '¿Seguro que quieres cambiarla?',
+    confirmAction: 'Cambiarla',
+    updatedTitle: 'Contraseña actualizada',
+    updatedMessage: 'La próxima vez que entres, usa tu nueva contraseña.',
+  },
   outfits: {                                                                                   // Castri
     suggest: 'Sugerir outfit',
     anotherSuggestion: 'Otra sugerencia',

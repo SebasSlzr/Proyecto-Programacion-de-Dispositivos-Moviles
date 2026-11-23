@@ -1,10 +1,11 @@
 import type { GarmentInput } from '@/api/garments';
 import { Button } from '@/components/ui/Button';
 import { Chip } from '@/components/ui/Chip';
+import { FormScroll } from '@/components/ui/FormScroll';
 import { CATEGORIES } from '@/constants/garments';
 import { STRINGS } from '@/constants/strings';
 import { COLORS } from '@/constants/theme';
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import { PhotoPicker } from './PhotoPicker';
 import { useGarmentForm } from './useGarmentForm';
 
@@ -18,7 +19,7 @@ export function GarmentForm({ initialValues, onSubmit, submitLabel }: GarmentFor
   const form = useGarmentForm({ initialValues, onSubmit });
 
   return (
-    <ScrollView contentContainerStyle={{ gap: 20, padding: 24, paddingBottom: 40 }} keyboardShouldPersistTaps="handled">
+    <FormScroll contentContainerStyle={{ gap: 20, padding: 24 }}>
       <PhotoPicker
         uri={form.photoUri}
         swatchColor={form.swatchColor}
@@ -97,6 +98,6 @@ export function GarmentForm({ initialValues, onSubmit, submitLabel }: GarmentFor
       )}
 
       <Button label={form.submitLabel ?? submitLabel} onPress={form.submit} disabled={form.isSubmitting} />
-    </ScrollView>
+    </FormScroll>
   );
 }

@@ -1,8 +1,11 @@
 import { Link } from 'expo-router';
+import { Controller } from 'react-hook-form';
 import { View } from 'react-native';
 import { Button } from '@/components/ui/Button';
 import { FormError } from '@/components/ui/FormError';
 import { FormField } from '@/components/ui/FormField';
+import { FormScroll } from '@/components/ui/FormScroll';
+import { PasswordField } from '@/components/ui/PasswordField';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { useLogin } from './useLogin';
 
@@ -10,44 +13,53 @@ export default function LoginScreen() {
   const { control, onSubmit, isSubmitting, errorMessage } = useLogin();
 
   return (
-    <View className="flex-1 bg-linen justify-center px-6 gap-6">
-      <ScreenHeader title="Bienvenida de vuelta" subtitle="Entra para ver tu armario" />
+    <View className="flex-1 bg-linen">
+      <FormScroll contentContainerStyle={{ justifyContent: 'center', paddingHorizontal: 24, paddingTop: 24, gap: 24 }}>
+        <ScreenHeader title="Bienvenida de vuelta" subtitle="Entra para ver tu armario" />
 
-      <View className="gap-4">
-        <FormField
-          control={control}
-          name="email"
-          label="Correo"
-          keyboardType="email-address"
-          placeholder="tucorreo@ejemplo.com"
-          maxLength={254}
-          rules={{
-            required: 'El correo es obligatorio',
-            maxLength: { value: 254, message: 'Máximo 254 caracteres' },
-            pattern: { value: /^\S+@\S+\.\S+$/, message: 'Correo inválido' },
-          }}
-        />
-        <FormField
-          control={control}
-          name="password"
-          label="Contraseña"
-          secureTextEntry
-          placeholder="••••••••"
-          maxLength={72}
-          rules={{
-            required: 'La contraseña es obligatoria',
-            maxLength: { value: 72, message: 'Máximo 72 caracteres' },
-          }}
-        />
-      </View>
+        <View className="gap-4">
+          <FormField
+            control={control}
+            name="email"
+            label="Correo"
+            keyboardType="email-address"
+            placeholder="tucorreo@ejemplo.com"
+            maxLength={254}
+            rules={{
+              required: 'El correo es obligatorio',
+              maxLength: { value: 254, message: 'Máximo 254 caracteres' },
+              pattern: { value: /^\S+@\S+\.\S+$/, message: 'Correo inválido' },
+            }}
+          />
+          <Controller
+            control={control}
+            name="password"
+            rules={{
+              required: 'La contraseña es obligatoria',
+              maxLength: { value: 72, message: 'Máximo 72 caracteres' },
+            }}
+            render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+              <PasswordField
+                label="Contraseña"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                placeholder="••••••••"
+                maxLength={72}
+                error={error?.message}
+              />
+            )}
+          />
+        </View>
 
-      <FormError message={errorMessage} />
+        <FormError message={errorMessage} />
 
-      <Button label={isSubmitting ? 'Entrando…' : 'Entrar'} onPress={onSubmit} disabled={isSubmitting} />
+        <Button label={isSubmitting ? 'Entrando…' : 'Entrar'} onPress={onSubmit} disabled={isSubmitting} />
 
-      <Link href="/register" className="font-body-medium text-plum text-center">
-        ¿No tienes cuenta? Regístrate
-      </Link>
+        <Link href="/register" className="font-body-medium text-plum text-center">
+          ¿No tienes cuenta? Regístrate
+        </Link>
+      </FormScroll>
     </View>
   );
 }
