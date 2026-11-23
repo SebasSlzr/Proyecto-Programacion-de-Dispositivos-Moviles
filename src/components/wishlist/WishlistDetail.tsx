@@ -3,6 +3,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { GarmentImage } from '@/components/ui/GarmentImage';
+import { WishOutfitMatches } from '@/components/outfits/WishOutfitMatches';
 import { STRINGS } from '@/constants/strings';
 import { COLORS } from '@/constants/theme';
 import type { WishlistItem } from '@/types';
@@ -58,7 +59,7 @@ export function WishlistDetail({
         </View>
       </View>
 
-      {/* Aquí va <WishOutfitMatches item={item} /> de Castri cuando su PR esté en develop. */}
+      <WishOutfitMatches item={item} />
 
       <PurchasedToggle purchased={item.purchased} onToggle={onTogglePurchased} disabled={isBusy} />
 
