@@ -19,4 +19,9 @@ export const COLORS = {
   bevelLight: 'rgba(255,255,255,0.18)',
   bevelDark: 'rgba(0,0,0,0.35)',
   overlay: 'rgba(43, 38, 33, 0.4)',
+  inkMuted: '#5C554E',
+  sageDark: '#4F5C44',
+  danger: '#B91C1C',
+  dangerSoft: '#FEF2F2',
+  dangerBorder: '#FCA5A5',
 };

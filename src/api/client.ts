@@ -42,7 +42,8 @@ export async function request<T>(path: string, { method, body }: RequestOptions 
       body: body ? JSON.stringify(body) : undefined,
       signal: controller.signal,
     });
-
+        // 204 = éxito sin contenido (por ejemplo, al guardar el token push).
+    if (response.status === 204) return undefined as T;
     const data = await response.json().catch(() => null);
         // Un 401 en el login significa "credenciales incorrectas", no sesión vencida.
     const isAuthRoute = path.startsWith('/auth/login') || path.startsWith('/auth/register');

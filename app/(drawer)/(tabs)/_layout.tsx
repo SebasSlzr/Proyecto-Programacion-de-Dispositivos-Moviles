@@ -4,14 +4,12 @@ import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { WoodSurface } from '@/components/ui/WoodSurface';
 import { COLORS } from '@/constants/theme';
-import { useSession } from '@/session/context';
+import { STRINGS } from '@/constants/strings';
 
 // Alto de la barra sin contar el área segura inferior (la "barra de gestos").
 const TAB_BAR_HEIGHT = 58;
 
 export default function TabsLayout() {
-  const { user } = useSession();
-  const isAdmin = user?.role === 'admin';
   const insets = useSafeAreaInsets();
 
   // La barra crece hacia abajo lo que mida el área segura, y los íconos
@@ -59,13 +57,10 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="users"
+        name="wishlist"
         options={{
-          title: 'Usuarios',
-          // href: null esconde la pestaña de la barra para quien no es admin.
-          // Es solo presentación: la protección real es el middleware del backend.
-          href: isAdmin ? undefined : null,
-          tabBarIcon: ({ color, size }) => <Ionicons name="people-outline" size={size} color={iconColor(color)} />,
+          title: STRINGS.tabs.wishlist,
+          tabBarIcon: ({ color, size }) => <Ionicons name="heart-outline" size={size} color={iconColor(color)} />,
         }}
       />
     </Tabs>

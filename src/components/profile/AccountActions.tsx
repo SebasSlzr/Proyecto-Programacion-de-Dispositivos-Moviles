@@ -19,9 +19,9 @@ export function AccountActions({ bottomInset }: AccountActionsProps) {
       <Button label="Cerrar sesión" variant="secondary" onPress={signOut} />
       <Pressable
         onPress={confirmDeleteAccount}
-        className="rounded-full py-3 px-6 items-center border border-red-300 bg-red-50"
+        className="rounded-full py-3 px-6 items-center border border-danger-border bg-danger-soft"
       >
-        <Text className="font-body-bold text-red-500 text-base">Eliminar cuenta</Text>
+        <Text className="font-body-bold text-danger text-base">Eliminar cuenta</Text>
       </Pressable>
     </View>
   );

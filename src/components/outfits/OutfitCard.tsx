@@ -14,7 +14,7 @@ type OutfitCardProps = {
 
 // Misma sombra que GarmentCard: suave en reposo y casi nula al presionar.
 const RESTING_SHADOW = {
-  shadowColor: '#1E120A',
+  shadowColor: COLORS.shadow,
   shadowOffset: { width: 0, height: 3 },
   shadowOpacity: 0.18,
   shadowRadius: 6,
@@ -22,7 +22,7 @@ const RESTING_SHADOW = {
 };
 
 const PRESSED_SHADOW = {
-  shadowColor: '#1E120A',
+  shadowColor: COLORS.shadow,
   shadowOffset: { width: 0, height: 1 },
   shadowOpacity: 0.08,
   shadowRadius: 2,
@@ -90,7 +90,7 @@ export function OutfitCard({ outfit, onPress }: OutfitCardProps) {
                 <Text className="font-body-bold text-ink text-sm mt-3" numberOfLines={1}>
                   {outfit.name}
                 </Text>
-                <Text className="font-body text-ink/70 text-xs mt-0.5">{countLabel}</Text>
+                <Text className="font-body text-ink-muted text-xs mt-0.5">{countLabel}</Text>
               </View>
             </View>
           </View>

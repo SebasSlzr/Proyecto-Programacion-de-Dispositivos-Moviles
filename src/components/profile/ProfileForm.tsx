@@ -1,6 +1,8 @@
 import { Text } from 'react-native';
 import { Button } from '@/components/ui/Button';
+import { PasswordField } from '@/components/ui/PasswordField';
 import { TextField } from '@/components/ui/TextField';
+import { STRINGS } from '@/constants/strings';
 import type { User } from '@/types';
 import { useProfileForm } from './useProfileForm';
 
@@ -16,6 +18,10 @@ export function ProfileForm({ user }: ProfileFormProps) {
     setEmail,
     password,
     setPassword,
+    confirmPassword,
+    setConfirmPassword,
+    passwordError,
+    confirmError,
     isSubmitting,
     error,
     success,
@@ -35,22 +41,31 @@ export function ProfileForm({ user }: ProfileFormProps) {
         maxLength={254}
       />
 
-      <TextField
-        label="Nueva contraseña (opcional)"
+      <PasswordField
+        label={STRINGS.passwordField.newLabel}
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
-        placeholder="Déjalo vacío si no la quieres cambiar"
+        placeholder={STRINGS.passwordField.newPlaceholder}
         maxLength={72}
+        error={passwordError}
+      />
+
+      <PasswordField
+        label={STRINGS.passwordField.confirmLabel}
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        placeholder={STRINGS.passwordField.confirmPlaceholder}
+        maxLength={72}
+        error={confirmError}
       />
 
       {!!error && (
-        <Text className="font-body text-sm text-red-500 bg-red-50 rounded-2xl p-3 text-center">
+        <Text className="font-body text-sm text-danger bg-danger-soft rounded-2xl p-3 text-center">
           {error}
         </Text>
       )}
       {!!success && (
-        <Text className="font-body text-sm text-sage bg-sage/10 rounded-2xl p-3 text-center">
+        <Text className="font-body text-sm text-sage-dark bg-sage/10 rounded-2xl p-3 text-center">
           {success}
         </Text>
       )}

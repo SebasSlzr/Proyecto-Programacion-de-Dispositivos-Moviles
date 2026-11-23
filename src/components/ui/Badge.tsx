@@ -15,7 +15,7 @@ export function Badge({ label, tone = 'sage' }: BadgeProps) {
   }
   return (
     <View className="bg-sage/20 rounded-full px-2 py-0.5">
-      <Text className="font-body text-xs text-sage">{label}</Text>
+      <Text className="font-body text-xs text-sage-dark">{label}</Text>
     </View>
   );
 }

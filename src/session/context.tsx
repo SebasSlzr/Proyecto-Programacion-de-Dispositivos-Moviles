@@ -5,6 +5,8 @@ import * as SecureStore from 'expo-secure-store';
 import { createContext, use, useEffect, useState, type PropsWithChildren } from 'react';
 import { Platform } from 'react-native';
 import { request, setToken, setUnauthorizedHandler } from '../api/client';
+import { cancelDailyOutfits } from '@/notifications/dailyOutfit';
+import { unregisterPushToken } from '@/notifications/push';
 import type { User } from '../types';
 
 interface Session {
@@ -110,8 +112,11 @@ export function SessionProvider({ children }: PropsWithChildren) {
           });
           await signIn(email, password);
         },
-        // También lo usa "Eliminar cuenta", así que ahí también se borra el token.
+                // También lo usa "Eliminar cuenta". Primero se limpian los avisos: la petición que desvincula
+        // el celular sale con el token actual (sin esperar respuesta) y después se borra la sesión.
         signOut: () => {
+          unregisterPushToken();
+          cancelDailyOutfits().catch(() => {});
           setToken(null);
           setUser(null);
           clearToken()?.catch(() => {});

@@ -1,26 +1,42 @@
 import { View, Text, TextInput, ScrollView } from 'react-native';
 import { Button } from '@/components/ui/Button';
 import { OutfitSlotPicker } from './OutfitSlotPicker';
+import { SuggestionBanner } from './SuggestionBanner';
 import { useOutfitForm } from './useOutfitForm';
 import { useGarmentsBySlot } from './useGarmentsBySlot';
+import { useOutfitSuggestion } from './useOutfitSuggestion';
 import { OUTFIT_SLOTS } from '@/constants/outfits';
+import { STRINGS } from '@/constants/strings';
 import { COLORS } from '@/constants/theme';
 import type { OutfitInput } from '@/api/outfits';
 import type { Garment } from '@/types';
 
 type OutfitFormProps = {
   wardrobe: Garment[];
-  initialValues?: OutfitInput;
+  initialValues?: OutfitInput; // al editar
+  prefill?: OutfitInput;       // outfit nuevo precargado (notificación "Tu outfit de hoy")
+  suggestions?: boolean;       // muestra el botón "Sugerir outfit" (en el creador)
+  autoSuggest?: boolean;       // aplica una sugerencia al abrir (ruta con suggest = '1')
   onSubmit: (values: Partial<OutfitInput>) => Promise<void>;
   submitLabel: string;
 };
 
-export function OutfitForm({ wardrobe, initialValues, onSubmit, submitLabel }: OutfitFormProps) {
-  const { name, setName, slots, setSlot, submit, isSubmitting, error } = useOutfitForm({
+export function OutfitForm({
+  wardrobe,
+  initialValues,
+  prefill,
+  suggestions = false,
+  autoSuggest = false,
+  onSubmit,
+  submitLabel,
+}: OutfitFormProps) {
+  const { name, setName, slots, setSlot, applySuggestion, submit, isSubmitting, error } = useOutfitForm({
     initialValues,
+    prefill,
     onSubmit,
   });
   const garmentsBySlot = useGarmentsBySlot(wardrobe);
+  const suggestion = useOutfitSuggestion(wardrobe, { onSuggest: applySuggestion, autoSuggest });
 
   return (
     <ScrollView contentContainerStyle={{ gap: 24, paddingBottom: 40 }} keyboardShouldPersistTaps="handled">
@@ -36,6 +52,24 @@ export function OutfitForm({ wardrobe, initialValues, onSubmit, submitLabel }: O
         />
       </View>
 
+      {suggestions && (
+        <View className="gap-3">
+          <Button
+            variant="secondary"
+            label={suggestion.hasSuggested ? STRINGS.outfits.anotherSuggestion : STRINGS.outfits.suggest}
+            onPress={suggestion.suggest}
+          />
+          {suggestion.isBannerVisible &&
+            (suggestion.last ? (
+              <SuggestionBanner harmony={suggestion.last.harmony} onDismiss={suggestion.dismiss} />
+            ) : (
+              <Text className="font-body text-sm text-ink bg-ivory border border-taupe rounded-2xl p-3 text-center">
+                {STRINGS.outfits.cannotSuggest}
+              </Text>
+            ))}
+        </View>
+      )}
+
       {OUTFIT_SLOTS.map((slot) => (
         <OutfitSlotPicker
           key={slot.key}
@@ -48,7 +82,7 @@ export function OutfitForm({ wardrobe, initialValues, onSubmit, submitLabel }: O
       ))}
 
       {!!error && (
-        <Text className="font-body text-sm text-red-500 bg-red-50 rounded-2xl p-3 text-center">{error}</Text>
+        <Text className="font-body text-sm text-danger bg-danger-soft rounded-2xl p-3 text-center">{error}</Text>
       )}
 
       <Button label={isSubmitting ? 'Guardando…' : submitLabel} onPress={submit} disabled={isSubmitting} />

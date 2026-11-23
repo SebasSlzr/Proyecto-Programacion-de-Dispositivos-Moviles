@@ -17,7 +17,7 @@ export function UserCard({ user, onDelete }: UserCardProps) {
           <Text className="font-body-bold text-ink text-sm" numberOfLines={1}>
             {user.name}
           </Text>
-          <Text className="font-body text-ink/60 text-xs mt-0.5" numberOfLines={1}>
+          <Text className="font-body text-ink-muted text-xs mt-0.5" numberOfLines={1}>
             {user.email}
           </Text>
         </View>
@@ -25,16 +25,16 @@ export function UserCard({ user, onDelete }: UserCardProps) {
       </View>
 
       <View className="flex-row items-center justify-between">
-        <Text className="font-body text-ink/60 text-xs">
+        <Text className="font-body text-ink-muted text-xs">
           {user.garmentCount} prendas, {user.outfitCount} outfits
         </Text>
         {/* Los administradores no se pueden eliminar desde el panel (el backend también lo bloquea). */}
         {!isAdmin && (
           <Pressable
             onPress={() => onDelete(user)}
-            className="rounded-full px-3 py-1.5 border border-red-300 bg-red-50"
+            className="rounded-full px-3 py-1.5 border border-danger-border bg-danger-soft"
           >
-            <Text className="font-body-bold text-red-500 text-xs">Eliminar</Text>
+            <Text className="font-body-bold text-danger text-xs">Eliminar</Text>
           </Pressable>
         )}
       </View>
