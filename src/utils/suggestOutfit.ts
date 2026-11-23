@@ -1,6 +1,6 @@
 // Sugerencias de outfits por armonía de color. Funciones puras: no usan React, red ni base de datos.
 // Las usan el botón "Sugerir outfit", la notificación "Tu outfit de hoy" y la regla de los 3 outfits.
-import type { Garment } from '@/types';
+import type { Garment, WishlistItem } from '@/types';
 import { OUTFIT_SLOTS, type OutfitSlotKey } from '@/constants/outfits';
 import { hexToHsl, hueDistance, isNeutral } from '@/utils/color';
 
@@ -200,4 +200,31 @@ export function outfitsConPrenda(prenda: Garment, armario: Garment[], max = 5): 
     resultado.push(sugerencia);
   }
   return resultado;
+}
+
+// Regla de los 3 outfits: convierte un deseo de la wishlist en una prenda para analizarlo.
+// Hace falta la categoría (para saber en qué zona va) y el color detectado de su foto.
+// Si falta alguno, devuelve null y la pantalla pide completar los datos.
+export function deseoComoPrenda(deseo: WishlistItem): Garment | null {
+  if (!deseo.category || !deseo.dominantColor) return null;
+  return {
+    id: `deseo-${deseo.id}`, // prefijo para que nunca choque con el id de una prenda del armario
+    name: deseo.name,
+    category: deseo.category,
+    color: '',
+    swatchColor: deseo.dominantColor,
+    imageUrl: deseo.imageUrl,
+    imagePublicId: deseo.imagePublicId,
+    isFavorite: false,
+    dominantColor: deseo.dominantColor,
+  };
+}
+
+export type VeredictoCompra = 'vale-la-pena' | 'pensarlo' | 'no-combina';
+
+// Regla de los 3 outfits: con 3 o más vale la pena; con 1 o 2, pensarlo; con 0, no combina.
+export function veredictoDeCompra(cantidadDeOutfits: number): VeredictoCompra {
+  if (cantidadDeOutfits >= OUTFITS_MINIMOS_PARA_COMPRAR) return 'vale-la-pena';
+  if (cantidadDeOutfits > 0) return 'pensarlo';
+  return 'no-combina';
 }
