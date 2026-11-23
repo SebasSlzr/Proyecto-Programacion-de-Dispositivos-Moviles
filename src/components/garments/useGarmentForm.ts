@@ -1,5 +1,6 @@
 import type { GarmentInput } from '@/api/garments';
 import { CATEGORIES, SWATCH_OPTIONS } from '@/constants/garments';
+import { STRINGS } from '@/constants/strings';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { useState } from 'react';
 
@@ -16,9 +17,27 @@ const isLocalFile = (uri: string) => !uri.startsWith('http');
 export function useGarmentForm({ initialValues, onSubmit }: UseGarmentFormOptions) {
   const [name, setName] = useState(initialValues?.name ?? '');
   const [category, setCategory] = useState(initialValues?.category ?? CATEGORIES[0]);
-  const [color, setColor] = useState(initialValues?.color ?? '');
-  const [swatchColor, setSwatchColor] = useState(initialValues?.swatchColor ?? SWATCH_OPTIONS[0]);
+  const [color, setColorValue] = useState(initialValues?.color ?? '');
+  // En edición queda preseleccionado el color actual (el que detectó el servidor o el que eligió la persona).
+  const [swatchColor, setSwatchValue] = useState(initialValues?.swatchColor ?? SWATCH_OPTIONS[0]);
+  // Si el color actual no está entre las opciones (lo detectó el servidor), se muestra primero.
+  const detectedSwatch =
+    initialValues?.swatchColor && !SWATCH_OPTIONS.includes(initialValues.swatchColor) ? initialValues.swatchColor : null;
+  const swatchOptions = detectedSwatch ? [detectedSwatch, ...SWATCH_OPTIONS] : SWATCH_OPTIONS;
+  // Con foto, el color solo se manda si la persona lo tocó: si no, lo detecta el servidor.
+  const [colorTouched, setColorTouched] = useState(false);
+  const [swatchTouched, setSwatchTouched] = useState(false);
   const [photoUri, setPhotoUri] = useState<string | null>(initialValues?.imageUrl ?? null);
+  const hasPhoto = !!photoUri;
+
+  const setColor = (value: string) => {
+    setColorValue(value);
+    setColorTouched(true);
+  };
+  const setSwatchColor = (hex: string) => {
+    setSwatchValue(hex);
+    setSwatchTouched(true);
+  };
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -43,13 +62,17 @@ export function useGarmentForm({ initialValues, onSubmit }: UseGarmentFormOption
   };
 
   const submit = async () => {
-    if (!name.trim() || !color.trim()) {
-      setError('El nombre y el color son obligatorios');
+    // Sin foto el color es obligatorio (no hay de dónde detectarlo); con foto es opcional.
+    if (!name.trim() || (!hasPhoto && !color.trim())) {
+      setError(hasPhoto ? STRINGS.garmentColor.nameRequired : STRINGS.garmentColor.required);
       return;
     }
     setError(null);
 
-    const current = { name: name.trim(), category, color: color.trim(), swatchColor };
+    const current: Partial<GarmentInput> = { name: name.trim(), category };
+    // Sin foto se manda siempre; con foto, solo si la persona lo corrigió.
+    if (!hasPhoto || (colorTouched && color.trim())) current.color = color.trim();
+    if (!hasPhoto || swatchTouched) current.swatchColor = swatchColor;
     const imageChanged = photoUri !== initialImageUrl;
 
     // En edición solo se manda lo que cambió; en creación se manda todo.
@@ -58,7 +81,7 @@ export function useGarmentForm({ initialValues, onSubmit }: UseGarmentFormOption
       payload = {};
       const fields = ['name', 'category', 'color', 'swatchColor'] as const;
       fields.forEach((key) => {
-        if (current[key] !== initialValues[key]) payload[key] = current[key];
+        if (current[key] !== undefined && current[key] !== initialValues[key]) payload[key] = current[key];
       });
 
       if (Object.keys(payload).length === 0 && !imageChanged) {
@@ -96,6 +119,9 @@ export function useGarmentForm({ initialValues, onSubmit }: UseGarmentFormOption
     setColor,
     swatchColor,
     setSwatchColor,
+    swatchOptions,
+    detectedSwatch,
+    hasPhoto,
     photoUri,
     setPhotoUri,
     submit,
