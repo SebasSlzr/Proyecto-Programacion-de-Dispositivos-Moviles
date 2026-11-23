@@ -1,9 +1,11 @@
 import { describe, expect, test } from '@jest/globals';
-import type { Garment } from '@/types';
+import type { Garment, WishlistItem } from '@/types';
 import {
   OUTFITS_MINIMOS_PARA_COMPRAR,
+  deseoComoPrenda,
   outfitsConPrenda,
   sugerirOutfit,
+  veredictoDeCompra,
   type OutfitSuggestion,
 } from '@/utils/suggestOutfit';
 
@@ -197,5 +199,37 @@ describe('outfitsConPrenda', () => {
     const resultado = outfitsConPrenda(camisetaDeseo, armarioPequeno);
     expect(resultado.length).toBeLessThan(OUTFITS_MINIMOS_PARA_COMPRAR);
     expect(resultado).toHaveLength(1);
+  });
+});
+
+describe('regla de los 3 outfits en la wishlist', () => {
+  const deseo: WishlistItem = {
+    id: 'w1',
+    name: 'Chaqueta de jean',
+    url: null,
+    store: 'Boutique Lila',
+    price: 120000,
+    category: 'Chaqueta',
+    imageUrl: null,
+    imagePublicId: null,
+    dominantColor: NARANJA,
+    purchased: false,
+    createdAt: '2026-11-15T00:00:00.000Z',
+  };
+
+  test('un deseo sin categoría o sin color no se puede analizar; con ambos es una prenda', () => {
+    expect(deseoComoPrenda({ ...deseo, category: null })).toBeNull();
+    expect(deseoComoPrenda({ ...deseo, dominantColor: null })).toBeNull();
+    const comoPrenda = deseoComoPrenda(deseo);
+    expect(comoPrenda?.category).toBe('Chaqueta');
+    expect(comoPrenda?.swatchColor).toBe(NARANJA);
+  });
+
+  test('el veredicto cambia en 3 outfits', () => {
+    expect(veredictoDeCompra(0)).toBe('no-combina');
+    expect(veredictoDeCompra(1)).toBe('pensarlo');
+    expect(veredictoDeCompra(2)).toBe('pensarlo');
+    expect(veredictoDeCompra(3)).toBe('vale-la-pena');
+    expect(veredictoDeCompra(5)).toBe('vale-la-pena');
   });
 });

@@ -57,12 +57,12 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-      name="wishlist"
-      options={{
-        title: STRINGS.tabs.wishlist,
-      tabBarIcon: ({ color, size }) => <Ionicons name="heart-outline" size={size} color={iconColor(color)} />,
-      }}
-    />
+        name="wishlist"
+        options={{
+          title: STRINGS.tabs.wishlist,
+          tabBarIcon: ({ color, size }) => <Ionicons name="heart-outline" size={size} color={iconColor(color)} />,
+        }}
+      />
     </Tabs>
   );
 }
