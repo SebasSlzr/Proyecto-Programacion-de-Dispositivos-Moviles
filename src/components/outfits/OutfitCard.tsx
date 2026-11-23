@@ -9,7 +9,7 @@ import { useOutfitLayers } from './useOutfitLayers';
 
 type OutfitCardProps = {
   outfit: Outfit;
-  onPress: () => void; // qué hacer al tocar la tarjeta (la pantalla decide: abrir la edición)
+  onPress?: () => void; // qué hacer al tocar la tarjeta (abrir la edición); sin él, solo lectura
 };
 
 // Misma sombra que GarmentCard: suave en reposo y casi nula al presionar.
@@ -50,9 +50,11 @@ export function OutfitCard({ outfit, onPress }: OutfitCardProps) {
   return (
     <Pressable
       onPress={onPress}
-      accessibilityRole="button"
+      // Sin onPress (vista del administrador) la tarjeta es solo lectura.
+      disabled={!onPress}
+      accessibilityRole={onPress ? 'button' : undefined}
       accessibilityLabel={`${outfit.name}, ${countLabel}`}
-      accessibilityHint="Abre el outfit para verlo o editarlo"
+      accessibilityHint={onPress ? 'Abre el outfit para verlo o editarlo' : undefined}
       className="mb-5"
     >
       {({ pressed }) => (
