@@ -8,7 +8,7 @@ import type { Garment } from '@/types';
 
 type GarmentCardProps = {
   garment: Garment;
-  onPress: () => void; // qué hacer al tocar la tarjeta (la pantalla decide: abrir el detalle)
+  onPress?: () => void; // qué hacer al tocar la tarjeta (abrir el detalle); sin él, solo lectura
 };
 
 // Sombra suave en reposo y casi nula al presionar: la tarjeta "se acerca" al fondo.
@@ -38,9 +38,12 @@ export function GarmentCard({ garment, onPress }: GarmentCardProps) {
   return (
     <Pressable
       onPress={onPress}
-      accessibilityRole="button"
+      // Sin onPress (vista del administrador) la tarjeta es solo lectura: no responde
+      // al toque, no se hunde y el lector de pantalla no la anuncia como botón.
+      disabled={!onPress}
+      accessibilityRole={onPress ? 'button' : undefined}
       accessibilityLabel={`${garment.name}, ${garment.category}, color ${garment.color}`}
-      accessibilityHint="Abre la prenda para verla o editarla"
+      accessibilityHint={onPress ? 'Abre la prenda para verla o editarla' : undefined}
       className="mb-5"
     >
       {({ pressed }) => (

@@ -33,7 +33,36 @@ export const STRINGS = {
     emptyColor: 'No tienes prendas de este color',
     emptyColorDescription: 'Prueba con otro color o toca "Todos los colores".',
   },
-  admin: { panel: 'Usuarios', userDetail: 'Armario del usuario' },                            // Daniel
+  admin: {                                                                                     // Daniel
+    panel: 'Usuarios',
+    panelSubtitle: 'Panel de administración',
+    userDetail: 'Armario del usuario',
+    statUsers: 'Usuarios',
+    statGarments: 'Prendas',
+    statOutfits: 'Outfits',
+    search: 'Buscar por nombre o correo…',
+    sectionAdmins: 'Administradores',
+    sectionUsers: 'Usuarios',
+    roleAdmin: 'Administrador',
+    roleUser: 'Usuario',
+    emptyTitle: 'Sin resultados',
+    emptyDescription: 'No hay usuarios que coincidan con tu búsqueda.',
+    delete: 'Eliminar',
+    deleteUser: 'Eliminar usuario',
+    deleteTitle: 'Eliminar usuario',
+    deleteMessage: (name: string) =>
+      `Se van a borrar la cuenta de ${name}, sus prendas y sus outfits. Esta acción no se puede deshacer.`,
+    openUserHint: 'Abre sus prendas y outfits en solo lectura',
+    back: 'Volver al panel',
+    tabGarments: 'Prendas',
+    tabOutfits: 'Outfits',
+    readOnlyNotice: 'Vista de solo lectura para soporte. Este acceso está descrito en la',
+    privacyLink: 'Política de privacidad',
+    emptyGarmentsTitle: 'Sin prendas',
+    emptyGarmentsDescription: 'Este usuario todavía no ha guardado prendas.',
+    emptyOutfitsTitle: 'Sin outfits',
+    emptyOutfitsDescription: 'Este usuario todavía no ha armado outfits.',
+  },
   dialogs: { confirm: 'Confirmar', cancel: 'Cancelar', ok: 'Entendido' },                     // Daniel
   // Luisa
   wishlistScreens: {
