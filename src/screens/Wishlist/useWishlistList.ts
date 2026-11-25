@@ -3,8 +3,9 @@ import { router } from 'expo-router';
 import { listWishlist } from '@/api/wishlist';
 import { useFocusFetch } from '@/hooks/useFocusFetch';
 import type { WishlistItem } from '@/types';
+import { countPending, filterWishlist, type WishlistFilter } from '@/utils/wishlist';
 
-export type WishlistFilter = 'pending' | 'purchased' | 'all';
+export type { WishlistFilter };
 
 // Declarada fuera del hook para que sea estable: si se creara en cada render,
 // useFocusFetch recargaría la lista en bucle.
@@ -17,18 +18,9 @@ export function useWishlistList() {
   const [filter, setFilter] = useState<WishlistFilter>('pending');
   const [search, setSearch] = useState('');
 
-  const pendingCount = useMemo(() => items.filter((item) => !item.purchased).length, [items]);
+  const pendingCount = useMemo(() => countPending(items), [items]);
 
-  const filteredItems = useMemo(() => {
-    const text = search.trim().toLowerCase();
-    return items.filter((item) => {
-      const matchesFilter =
-        filter === 'all' || (filter === 'purchased' ? item.purchased : !item.purchased);
-      const matchesSearch =
-        !text || item.name.toLowerCase().includes(text) || (item.store ?? '').toLowerCase().includes(text);
-      return matchesFilter && matchesSearch;
-    });
-  }, [items, filter, search]);
+  const filteredItems = useMemo(() => filterWishlist(items, filter, search), [items, filter, search]);
 
   const openNewWish = () => router.push('/wishlist/new');
 
