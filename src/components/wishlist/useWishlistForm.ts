@@ -3,6 +3,7 @@ import { previewWishlistLink, type WishlistInput } from '@/api/wishlist';
 import { STRINGS } from '@/constants/strings';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import type { WishlistItem } from '@/types';
+import { isHttpLink, parsePrice } from '@/utils/wishlist';
 
 const TEXT = STRINGS.wishlistScreens;
 
@@ -13,15 +14,6 @@ type UseWishlistFormOptions = {
 
 // Una URI local (file://, ph://...) todavía no se ha subido; una URL http ya está en Cloudinary.
 const isLocalFile = (uri: string) => !uri.startsWith('http');
-
-// "189.900", "189 900" o "189900" -> 189900. Vacío -> null. Los pesos no llevan centavos,
-// así que se quitan puntos, comas y espacios. Devuelve undefined si no es un número válido.
-function parsePrice(text: string): number | null | undefined {
-  const clean = text.replace(/[\s.,]/g, '');
-  if (!clean) return null;
-  if (!/^\d+$/.test(clean)) return undefined;
-  return Number(clean);
-}
 
 // Toda la lógica del formulario de deseos: lectura del link, campos, foto, validación,
 // subida a Cloudinary y cálculo de lo que cambió. El componente solo dibuja.
@@ -60,7 +52,7 @@ export function useWishlistForm({ initialValues, onSubmit }: UseWishlistFormOpti
   // Solo se rellenan los datos que llegaron; lo demás queda como estaba para llenarlo a mano.
   const readLink = async () => {
     const link = url.trim();
-    if (!/^https?:\/\//i.test(link)) {
+    if (!isHttpLink(link)) {
       setLinkError(TEXT.errorUrl);
       return;
     }
@@ -91,7 +83,7 @@ export function useWishlistForm({ initialValues, onSubmit }: UseWishlistFormOpti
     if (!name.trim()) return TEXT.errorNameRequired;
     if (name.trim().length > 80) return TEXT.errorNameMax;
     if (store.trim().length > 60) return TEXT.errorStoreMax;
-    if (url.trim() && !/^https?:\/\//i.test(url.trim())) return TEXT.errorUrl;
+    if (url.trim() && !isHttpLink(url)) return TEXT.errorUrl;
     if (parsePrice(price) === undefined) return TEXT.errorPrice;
     return null;
   };
