@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/icon.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.sebz_slzr.percha"
+      "package": "com.sebz_slzr.percha",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "output": "static",
